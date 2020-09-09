@@ -1,0 +1,11 @@
+{
+  "name": "corona-shop-fe",
+  "version": "1.0.0",
+  "description": "Oleg Vodsky's Corona shop project for study",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Oleg Vodsky",
+  "license": "MIT"
+}

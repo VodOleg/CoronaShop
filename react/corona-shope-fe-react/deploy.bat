@@ -1,0 +1,1 @@
+xcopy build .\..\..\CoronaShopBE\FrontEnd /s /d /f /y /c

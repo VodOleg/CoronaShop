@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  coronashopbe:
+    image: ${DOCKER_REGISTRY-}coronashopbe
+    build:
+      context: .
+      dockerfile: CoronaShopBE/Dockerfile
+    ports:
+     - 5400:80
+     - 5401:443
