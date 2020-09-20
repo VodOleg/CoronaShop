@@ -34,8 +34,10 @@ namespace CoronaShopBE.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] string value)
         {
+            Console.WriteLine("value");
+            return Ok();
         }
 
         // PUT api/values/5

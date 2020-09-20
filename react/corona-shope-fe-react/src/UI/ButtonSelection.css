@@ -1,0 +1,20 @@
+.logName{
+    min-width: 160px;
+}
+.loggerName{
+    min-width: 120px;
+    font-size: x-small !important;
+}
+.veryLongName{
+    min-width: 200px;
+}
+
+
+.mainLogLevel{
+    background-color: pink !important;
+}
+
+.inBox{
+    max-width: 80%;
+    min-width: 300px;
+}
