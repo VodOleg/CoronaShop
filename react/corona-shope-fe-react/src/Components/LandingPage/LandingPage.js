@@ -69,6 +69,7 @@ class LoginForm extends Component{
         e.preventDefault();
         let success = await BE.tryLogIn(this.state.email, this.state.pw);
         SimpleStateManager.setIsLogged(success, this.state.email);
+        
     }
 
     emailChanged(e){

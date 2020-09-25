@@ -7,6 +7,7 @@ class SimpleStateManager{
     constructor(props){
         this.isLogged = false;
         this.email = "";
+        this.developmentMode = (window.location.port === '3000')
     }
 
     setIsLogged(isLogged_, email){
@@ -19,6 +20,10 @@ class SimpleStateManager{
 
     getUserEmail(){
         return this.email;
+    }
+
+    isDevelopmentMode(){
+        return this.developmentMode;
     }
 }
 

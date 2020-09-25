@@ -3,6 +3,7 @@
 
 import axios from 'axios';
 import {UtilityFunctions as UF } from './Util';
+import SSM from './SimpleStateManager';
 
 class BE_Comm{
     constructor(){
@@ -18,6 +19,12 @@ class BE_Comm{
     }
 
     async tryLogIn(email,pw){
+        if (SSM.isDevelopmentMode()){
+            // in dev mode don't perform the rest call
+            console.log("Simulated logged in user")
+            return true;
+        }
+
         let body={
             'email':email,
             'pw':pw
