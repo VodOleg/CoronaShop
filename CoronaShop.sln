@@ -5,10 +5,6 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoronaShopBE", "CoronaShopBE\CoronaShopBE.csproj", "{BE652445-4D6D-4825-8B31-95B15AE40AAA}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{13C23A4A-9110-4930-A323-467DEBE37020}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoronaShop.ServiceLibrary", "..\CoronaShop.ServiceLibrary\CoronaShop.ServiceLibrary.csproj", "{198E9E70-ECEB-4A38-BD80-1D115EB32A8D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,14 +15,6 @@ Global
 		{BE652445-4D6D-4825-8B31-95B15AE40AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE652445-4D6D-4825-8B31-95B15AE40AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE652445-4D6D-4825-8B31-95B15AE40AAA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13C23A4A-9110-4930-A323-467DEBE37020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13C23A4A-9110-4930-A323-467DEBE37020}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13C23A4A-9110-4930-A323-467DEBE37020}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13C23A4A-9110-4930-A323-467DEBE37020}.Release|Any CPU.Build.0 = Release|Any CPU
-		{198E9E70-ECEB-4A38-BD80-1D115EB32A8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{198E9E70-ECEB-4A38-BD80-1D115EB32A8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{198E9E70-ECEB-4A38-BD80-1D115EB32A8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{198E9E70-ECEB-4A38-BD80-1D115EB32A8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

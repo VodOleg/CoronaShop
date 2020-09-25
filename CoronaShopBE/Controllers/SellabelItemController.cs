@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using CoronaShop.ServiceLibrary.Domains;
-using CoronaShop.ServiceLibrary.Entities;
 using CoronaShopBE.Dto;
 
 namespace CoronaShopBE.Controllers
@@ -14,14 +12,15 @@ namespace CoronaShopBE.Controllers
     [ApiController]
     public class SellabelItemController : ControllerBase
     {
-        [HttpPost]
-        public IActionResult AddNewSellableItem([FromQuery]SellableItemEntity sellableItemEntity)
-        {
-            var businessLogic = new SellableItem();
-            businessLogic.SaveSellableItem(sellableItemEntity);
-            return Ok();
-        }
-        [HttpPost]
+        //[HttpPost]
+        //public IActionResult AddNewSellableItem([FromQuery]SellableItemEntity sellableItemEntity)
+        //{
+        //    var businessLogic = new SellableItem();
+        //    businessLogic.SaveSellableItem(sellableItemEntity);
+        //    return Ok();
+        //}
+        //[HttpPost]
+
         [Route("test")]
         public IActionResult test ([FromBody] test d)
         {
