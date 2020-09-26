@@ -6,16 +6,16 @@ import './LandingPage.css';
 import {UtilityFunctions as UF} from '../../Common/Util';
 import InputWithSubmit from '../../UI/InputWithSubmit';
 import SimpleStateManager from '../../Common/SimpleStateManager';
+import SellerPage from './../SellerPage/SellerPage';
+import SSM from './../../Common/SimpleStateManager';
+import { Redirect } from 'react-router-dom';
 
 export default class LandingPage extends Component {
     constructor(props){
         super(props);
+
         //this.api = BE;
         //this.SSM = SimpleStateManager;
-    }
-
-    go_login(click){
-        console.log(click);
     }
 
     onSubmitCustom(e){
@@ -27,27 +27,22 @@ export default class LandingPage extends Component {
         return ele;
     }
 
-    renderMain(){
-        let ele = <Wrap>
-            <div className="headerWelcome">
-                <h3>Welcome to Corona Shops</h3>
-            </div>
-            <div className="loginForm">
-                Please Login or <span>register.</span>
-                {this.login_square()}
-            </div>
-        </Wrap>;
-
+    renderSellerPage(){
+        let ele = <SellerPage />
         return ele;
     }
     
+    
 
     render() {
-        return (
-            <div>    
-                {this.renderMain()}     
-            </div>
-        )
+        let rendering = <Wrap>
+            {!SimpleStateManager.isLogged() ?
+            this.login_square() :
+            this.renderSellerPage()
+            }
+        </Wrap>;
+
+        return (rendering);
     }
 }
 
@@ -69,7 +64,7 @@ class LoginForm extends Component{
         e.preventDefault();
         let success = await BE.tryLogIn(this.state.email, this.state.pw);
         SimpleStateManager.setIsLogged(success, this.state.email);
-        
+        this.forceUpdate();
     }
 
     emailChanged(e){
@@ -83,7 +78,23 @@ class LoginForm extends Component{
         })
     }
 
-    render(){
+    renderMain(){
+        let ele = <Wrap>
+            <div className="loginForm">
+                <div className="headerWelcome">
+                    <h3>Welcome to Corona Shops</h3>
+                </div>
+                <div >
+                    Please <span className={`custom-href-link`}>login</span> or <span className="custom-href-link">register.</span>
+                    {this.renderLoginDiv()}
+                </div>
+            </div>
+        </Wrap>;
+
+        return ele;
+    }
+
+    renderLoginDiv(){
         let ele = <Wrap>
             <Form onSubmit={this.onSubmitCustom}>
                 <Form.Group controlId="formBasicEmail">
@@ -104,5 +115,18 @@ class LoginForm extends Component{
             </Form>
         </Wrap>;
         return ele;
+    }
+
+    redirectToSellerPage(){
+        return <Redirect to={{ pathname: '/SellerPage' }} />;
+    }
+
+    render(){
+        console.log("rendering landing page: islogged = " + SSM.isLogged())
+        let rendering = <Wrap>
+            {!SSM.isLogged() ? this.renderMain() : this.redirectToSellerPage()}
+        </Wrap>;
+
+        return rendering;
     }
 }

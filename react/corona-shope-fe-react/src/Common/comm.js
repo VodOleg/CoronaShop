@@ -36,7 +36,7 @@ class BE_Comm{
         }
         let retValue = false;
         if(UF.isDefined(res) && UF.isDefined(res.data.response))
-            retValue = res.data.response == "True";
+            retValue = res.data.response === "True";
         return retValue;
     }
 

@@ -5,6 +5,7 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <UserSecretsId>33e3599c-42e2-4831-a8e9-7a69d5cd24e4</UserSecretsId>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    <AssemblyName>CoronaShopBE</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

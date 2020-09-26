@@ -1,4 +1,14 @@
 .loginForm{
     width: 30%;
     margin:auto;
+    text-align: center;
+}
+
+.custom-href-link{
+    background-color: aquamarine;
+    color: #112233;
+}
+
+.bold-font{
+    font-weight: bold;
 }
