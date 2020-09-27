@@ -21,6 +21,7 @@ namespace CoronaShopBE
         {
             Configuration = configuration;
             GlobalConfig.Load(configuration);
+            Log.Start();
         }
 
         public IConfiguration Configuration { get; }

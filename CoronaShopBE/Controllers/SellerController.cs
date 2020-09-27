@@ -26,7 +26,6 @@ namespace CoronaShopBE.Controllers
         [Route("Login")]
         public IActionResult Login([FromBody] Credentials creds)
         {
-
             bool ret = (creds.email == "oleg@email.com" && creds.pw == "1234");
             
             string response = $"{{\"response\":\"{ret}\",\"data\":\"somedata\"}}";

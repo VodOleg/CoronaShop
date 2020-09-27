@@ -14,8 +14,11 @@ namespace CoronaShopBE.Dto
             [JsonProperty("pw")]
             public string pw { get; set; }
 
+        public override string ToString()
+        {
+            return email + " " + pw;
+        }
 
-        
     }
 
     

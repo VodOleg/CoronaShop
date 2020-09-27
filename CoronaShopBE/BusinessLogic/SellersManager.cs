@@ -20,7 +20,7 @@ namespace CoronaShopBE.BusinessLogic
         public bool handleNewSeller(Credentials credentials)
         {
             //TODO: check if user already exists
-            Console.WriteLine(credentials.ToString());
+            //Console.WriteLine(credentials.ToString());
             //DatabaseInterface DB = new restDB();
             //m_pLogger.LogInformation(credentials.ToString());
             return true;
