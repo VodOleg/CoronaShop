@@ -29,6 +29,7 @@ namespace CoronaShopBE.Controllers
             bool ret = (creds.email == "oleg@email.com" && creds.pw == "1234");
             
             string response = $"{{\"response\":\"{ret}\",\"data\":\"somedata\"}}";
+            bool authenticated = m_pSellersManager.handleSellerLoginTry(creds);
             return Ok(response);
         }
 

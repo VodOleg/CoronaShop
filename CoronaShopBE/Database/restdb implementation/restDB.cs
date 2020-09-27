@@ -6,29 +6,38 @@ using CoronaShopBE.Dto;
 using System.Web;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Text;
+
 namespace CoronaShopBE.Database.restdb_implementation
 {
     public class restDB : DatabaseInterface
     {
         private string m_sUrl;
         private string m_sKey;
+        private HttpClient m_pClient;
         public restDB(string url, string key)
         {
             m_sUrl = url;
             m_sKey = key;
+            m_pClient = new HttpClient();
+            m_pClient.DefaultRequestHeaders.Add("x-apikey", m_sKey);
+            m_pClient.DefaultRequestHeaders.Add("cache-control", "no-cache");
         }
-        public bool AddNewSeller(Seller seller)
+        public async Task AddNewSeller(Seller seller)
         {
-            Console.WriteLine(seller.ToString());
-
-            //var client = new RestClient("https://coronashop-6a6d.restdb.io/rest/users");
-            //var request = new RestRequest(Method.POST);
-            //request.AddHeader("cache-control", "no-cache");
-            //request.AddHeader("x-apikey", m_sKey);
-            //request.AddHeader("content-type", "application/json");
-            //request.AddParameter("application/json", "{\"field1\":\"xyz\",\"field2\":\"abc\"}", ParameterType.RequestBody);
-            //IRestResponse response = client.Execute(request);
-            return true;
+            var data = new StringContent(JsonConvert.SerializeObject(seller), Encoding.UTF8, "application/json");
+            var response = await m_pClient.PostAsync(m_sUrl + "sellers", data);
+            string result = response.Content.ReadAsStringAsync().Result;
+            Log.Write(result);
         }
+
+        public async Task<bool> checkItemExist(Seller seller)
+        {
+            string query =  m_sUrl + $"sellers?q={{\"Credentials.email\":\"{seller.credentials.email}\"}}";
+            Log.Write($"sending query: {query}");
+            var result = await m_pClient.GetAsync(query);
+            Log.Write($"query: {query} returned {result}");
+            return true;
+        } 
     }
 }

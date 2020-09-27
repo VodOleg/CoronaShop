@@ -13,6 +13,7 @@ namespace CoronaShopBE.Database
         /// </summary>
         /// <param name="seller"></param>
         /// <returns>true if succeed</returns>
-        bool AddNewSeller(Seller seller);
+        Task AddNewSeller(Seller seller);
+        Task<bool> checkItemExist(Seller seller);
     }
 }

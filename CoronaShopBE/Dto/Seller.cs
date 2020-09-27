@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CoronaShopBE.Dto
 {
-    public class Seller
+    public class Seller:IDisposable
     {
         public Seller(string user, string pw)
         {
@@ -20,12 +20,18 @@ namespace CoronaShopBE.Dto
             shops = new List<Shop>();
 
         }
+        
 
         [JsonProperty("Credentials")]
         public Credentials credentials { get; set; }
 
         [JsonProperty("Shops")]
         public List<Shop> shops { get; set; }
-        
+
+        public void Dispose()
+        {
+            credentials = null;
+            shops = null;
+        }
     }
 }

@@ -17,10 +17,15 @@ namespace CoronaShopBE.Database.restdb_implementation
                 m_pDatabase = new restDB(GlobalConfig.databaseURL, GlobalConfig.databaseKey);
             }
         }
-        public bool AddNewSeller(Seller seller)
+        public Task AddNewSeller(Seller seller)
         {
-            m_pDatabase.AddNewSeller(seller);
-            return true;
+            return m_pDatabase.AddNewSeller(seller);
+            
+        }
+
+        public Task<bool> checkItemExist(Seller seller)
+        {
+            return m_pDatabase.checkItemExist(seller);
         }
     }
 }
