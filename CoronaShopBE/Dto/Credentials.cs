@@ -13,6 +13,10 @@ namespace CoronaShopBE.Dto
 
             [JsonProperty("pw")]
             public string pw { get; set; }
+
+
         
     }
+
+    
 }

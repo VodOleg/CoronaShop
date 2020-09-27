@@ -20,6 +20,7 @@ namespace CoronaShopBE
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            GlobalConfig.Load(configuration);
         }
 
         public IConfiguration Configuration { get; }
