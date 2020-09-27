@@ -10,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace CoronaShopBE
 {
+    
     public static class Log
     {
         private static string logPath;
         private static CultureInfo culture;
-        //readonly ILogger<Program> logger;
+
         public static void Start()
         {
             logPath = GlobalConfig.logPath;
@@ -25,7 +26,6 @@ namespace CoronaShopBE
         {
             StackTrace stackTrace = new StackTrace();
             var frames = stackTrace.GetFrames();
-            //foreach (var frame in frames){
             var frame = stackTrace.GetFrame(3);
             var Method = frame.GetMethod();
             string MethodName = Method.Name;
@@ -43,9 +43,10 @@ namespace CoronaShopBE
                     await sw.WriteLineAsync(text);
                 }
             };
-
-               // }
             
         }
+        
     }
+
+    
 }

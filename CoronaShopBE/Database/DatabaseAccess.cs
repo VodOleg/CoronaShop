@@ -9,15 +9,18 @@ namespace CoronaShopBE.Database.restdb_implementation
 {
     public class DatabaseAccess : DatabaseInterface
     {
-        private string m_sDatabaseUrl;
+        private DatabaseInterface m_pDatabase;
         public DatabaseAccess()
         {
-            m_sDatabaseUrl = GlobalConfig.databaseURL;
-            Console.WriteLine(m_sDatabaseUrl);
+            if(GlobalConfig.databaseURL.Contains("restdb.io"))
+            {
+                m_pDatabase = new restDB(GlobalConfig.databaseURL, GlobalConfig.databaseKey);
+            }
         }
         public bool AddNewSeller(Seller seller)
         {
-            throw new NotImplementedException();
+            m_pDatabase.AddNewSeller(seller);
+            return true;
         }
     }
 }

@@ -260,3 +260,7 @@ paket-files/
 __pycache__/
 *.pyc
 /CoronaShopBE/FrontEnd/*
+CoronaShopBE/FrontEnd/static
+CoronaShopBE/FrontEnd/asset-manifest.json
+CoronaShopBE/FrontEnd/Index.html
+CoronaShopBE/FrontEnd/service-worker.js

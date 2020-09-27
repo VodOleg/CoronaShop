@@ -11,18 +11,18 @@ namespace CoronaShopBE.BusinessLogic
 {
     public class SellersManager
     {
+        DatabaseAccess m_pDB; 
         //private readonly ILogger m_pLogger;
         public SellersManager()
         {
+            m_pDB = new DatabaseAccess();
         }
 
-        DatabaseAccess m_pDB = new DatabaseAccess();
         public bool handleNewSeller(Credentials credentials)
         {
             //TODO: check if user already exists
-            //Console.WriteLine(credentials.ToString());
-            //DatabaseInterface DB = new restDB();
-            //m_pLogger.LogInformation(credentials.ToString());
+            Seller seller = new Seller(credentials);
+            m_pDB.AddNewSeller(seller);
             return true;
         }
     }

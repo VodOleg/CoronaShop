@@ -8,16 +8,24 @@ namespace CoronaShopBE.Dto
 {
     public class Seller
     {
-        public class User
+        public Seller(string user, string pw)
         {
-            [JsonProperty("Credentials")]
-            public Credentials credentials { get; set; }
+            credentials = new Credentials(user, pw);
+            shops = new List<Shop>();
+        }
 
-            [JsonProperty("Shops")]
-            public List<Shop> shops { get; set; }
+        public Seller(Credentials credentials_)
+        {
+            credentials = credentials_;
+            shops = new List<Shop>();
 
         }
 
+        [JsonProperty("Credentials")]
+        public Credentials credentials { get; set; }
+
+        [JsonProperty("Shops")]
+        public List<Shop> shops { get; set; }
         
     }
 }
