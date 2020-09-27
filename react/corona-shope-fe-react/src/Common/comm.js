@@ -29,15 +29,34 @@ class BE_Comm{
             'email':email,
             'pw':pw
         }
-        let res;
-        try{
-            res = await this.send_request('Seller/Login',body);
-        }catch(exc){
-        }
+        let res = await this.send_request('Seller/Login',body);
+        
         let retValue = false;
         if(UF.isDefined(res) && UF.isDefined(res.data.response))
             retValue = res.data.response === "True";
         return retValue;
+    }
+
+    async tryRegister(email,pw){
+        if (SSM.isDevelopmentMode()){
+            // in dev mode don't perform the rest call
+            console.log("Simulated registered user")
+            return true;
+        }
+        let body={
+            'email':email,
+            'pw':pw
+        }
+        let res = await this.send_request('Seller/Register',body);
+        
+        let retValue = {
+            success: false,
+            desc : ""
+        };
+        if(UF.isDefined(res) && UF.isDefined(res.data.response))
+            retValue.success = res.data.response === "True";
+        return retValue;
+
     }
 
     async send_request(controller, body){
@@ -48,7 +67,11 @@ class BE_Comm{
             }
         };
         let request = this.BE_URL+'/api/'+controller;
-        let response = await axios.post(request,body,config);
+        let response = null;
+        try{
+            response = await axios.post(request,body,config);
+        }catch(exc){
+        }
         return response;
     }
 

@@ -13,7 +13,7 @@ import { Redirect } from 'react-router-dom';
 export default class LandingPage extends Component {
     constructor(props){
         super(props);
-
+        
         //this.api = BE;
         //this.SSM = SimpleStateManager;
     }
@@ -56,14 +56,31 @@ class LoginForm extends Component{
         }
         this.state={
             email:email,
-            pw:""
+            pw:"",
+            rpw:"",
+            repeatedIsCorrect : false,
+            renderingLoginForm:true
         }
     }
 
     async go_login(e){
         e.preventDefault();
-        let success = await BE.tryLogIn(this.state.email, this.state.pw);
-        SimpleStateManager.setIsLogged(success, this.state.email);
+        if (this.state.renderingLoginForm){
+            let success = await BE.tryLogIn(this.state.email, this.state.pw);
+            SimpleStateManager.setIsLogged(success, this.state.email);
+        }else {
+            if ( this.state.repeatedIsCorrect ){
+                let response = await BE.tryRegister(this.state.email, this.state.pw);
+                if (response.success){
+                    SimpleStateManager.setIsLogged(response.success,this.state.email);
+                }else{
+                    alert(response.desc);
+                }
+            }else{
+                alert("incorrect repeated password");
+                this.resetPW();
+            }
+        }
         this.forceUpdate();
     }
 
@@ -78,6 +95,13 @@ class LoginForm extends Component{
         })
     }
 
+    repeatPwChanged(e){
+        this.setState({
+            rpw:e.target.value,
+            repeatedIsCorrect: e.target.value === this.state.pw
+        })
+    }
+
     renderMain(){
         let ele = <Wrap>
             <div className="loginForm">
@@ -85,8 +109,9 @@ class LoginForm extends Component{
                     <h3>Welcome to Corona Shops</h3>
                 </div>
                 <div >
-                    Please <span className={`custom-href-link`}>login</span> or <span className="custom-href-link">register.</span>
-                    {this.renderLoginDiv()}
+                    Please <span type="button" onClick={()=>{this.setState({renderingLoginForm:true})}} className={this.state.renderingLoginForm ? `custom-href-link` : ``}>login</span>
+                    &nbsp;or <span type="button" onClick={()=>{this.setState({renderingLoginForm:false})}} className={!this.state.renderingLoginForm ? `custom-href-link` : ``}>register.</span>
+                    {this.renderLoginDiv(!this.state.renderingLoginForm)}
                 </div>
             </div>
         </Wrap>;
@@ -94,7 +119,11 @@ class LoginForm extends Component{
         return ele;
     }
 
-    renderLoginDiv(){
+    resetPW(){
+        this.setState({pw:"",rpw:""});
+    }
+
+    renderLoginDiv(isRegister){
         let ele = <Wrap>
             <Form onSubmit={this.onSubmitCustom}>
                 <Form.Group controlId="formBasicEmail">
@@ -109,9 +138,18 @@ class LoginForm extends Component{
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" value={this.state.pw} onChange={this.pwChanged.bind(this)} />
                 </Form.Group>
+                    {
+                        isRegister ? 
+                <Form.Group controlId="formBasicPasswordRepeat">
+                    <Form.Label>Repeat Password</Form.Label>
+                    <Form.Control type="password" placeholder="Password" value={this.state.rpw} onChange={this.repeatPwChanged.bind(this)} />
+                </Form.Group>
+                    :
+                    null
+                    }
                 <Button variant="primary" type="button" onClick={e=>this.go_login(e)}>
                     Submit
-                </Button>
+                </Button> 
             </Form>
         </Wrap>;
         return ele;
