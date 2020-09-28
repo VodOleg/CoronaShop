@@ -20,8 +20,13 @@ namespace CoronaShopBE.Dto
             shops = new List<Shop>();
 
         }
-        
+        public Seller() { }
 
+        
+        [JsonProperty("_id")]
+        public string _id { get; set; }
+
+        
         [JsonProperty("Credentials")]
         public Credentials credentials { get; set; }
 

@@ -28,5 +28,10 @@ namespace CoronaShopBE.Database
         {
             return m_pDatabase.checkItemExist(seller);
         }
+
+        public Task<Seller> getSellerByEmail(Credentials credentials)
+        {
+            return m_pDatabase.getSellerByEmail(credentials);
+        }
     }
 }

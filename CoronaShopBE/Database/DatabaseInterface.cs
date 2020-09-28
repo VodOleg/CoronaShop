@@ -15,5 +15,7 @@ namespace CoronaShopBE.Database
         /// <returns>true if succeed</returns>
         Task AddNewSeller(Seller seller);
         Task<bool> checkItemExist(Seller seller);
+
+        Task<Seller> getSellerByEmail(Credentials credentials);
     }
 }

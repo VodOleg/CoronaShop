@@ -26,5 +26,10 @@ namespace CoronaShopBE.Database.MongoDBImplementation
         {
             throw new NotImplementedException();
         }
+
+        public Task<Seller> getSellerByEmail(Credentials credentials)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

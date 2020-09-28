@@ -66,7 +66,9 @@ class LoginForm extends Component{
     async go_login(e){
         e.preventDefault();
         if (this.state.renderingLoginForm){
-            let success = await BE.tryLogIn(this.state.email, this.state.pw);
+            let user = await BE.tryLogIn(this.state.email, this.state.pw);
+            console.log(user);
+            let success = user.authenticated;
             SimpleStateManager.setIsLogged(success, this.state.email);
         }else {
             if ( this.state.repeatedIsCorrect ){
@@ -74,7 +76,7 @@ class LoginForm extends Component{
                 if (response.success){
                     SimpleStateManager.setIsLogged(response.success,this.state.email);
                 }else{
-                    alert(response.desc);
+                    alert("Cant Register this email.");
                 }
             }else{
                 alert("incorrect repeated password");

@@ -7,6 +7,7 @@ using CoronaShopBE.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace CoronaShopBE.Controllers
 {
@@ -24,11 +25,10 @@ namespace CoronaShopBE.Controllers
         [HttpPost]
         [Route("Login")]
         public IActionResult Login([FromBody] Credentials creds)
-        {
-            bool ret = (creds.email == "oleg@email.com" && creds.pw == "1234");
-            
-            string response = $"{{\"response\":\"{ret}\",\"data\":\"somedata\"}}";
-            bool authenticated = m_pSellersManager.handleSellerLoginTry(creds);
+        {   
+            Seller authenticated = m_pSellersManager.handleSellerLoginTry(creds);
+            string data = authenticated != null ? JsonConvert.SerializeObject(authenticated) : "none";
+            string response = $"{{\"response\":\"{authenticated!=null}\",\"data\":{data}}}";
             return Ok(response);
         }
 
@@ -40,5 +40,6 @@ namespace CoronaShopBE.Controllers
             string response = $"{{\"response\":\"{handleNewUserResult}\",\"data\":\"somedata\"}}";
             return Ok(response);
         }
+        
     }
 }

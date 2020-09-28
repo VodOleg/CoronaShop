@@ -19,10 +19,15 @@ class BE_Comm{
     }
 
     async tryLogIn(email,pw){
+        let user = {
+            authenticated:false,
+            data:{}
+        }
         if (SSM.isDevelopmentMode()){
             // in dev mode don't perform the rest call
-            console.log("Simulated logged in user")
-            return true;
+            console.log("Simulated logged in user");
+            user.authenticated = true;
+            return user;
         }
 
         let body={
@@ -30,11 +35,14 @@ class BE_Comm{
             'pw':pw
         }
         let res = await this.send_request('Seller/Login',body);
+        console.log(res);
+        if(UF.isDefined(res) && UF.isDefined(res.data)){
+            user.authenticated = res.data.response === "True";
+            user.data = res.data.data;
+        }
         
-        let retValue = false;
-        if(UF.isDefined(res) && UF.isDefined(res.data.response))
-            retValue = res.data.response === "True";
-        return retValue;
+
+        return user;
     }
 
     async tryRegister(email,pw){

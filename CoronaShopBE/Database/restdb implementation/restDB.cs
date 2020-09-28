@@ -36,8 +36,48 @@ namespace CoronaShopBE.Database.restdb_implementation
             string query =  m_sUrl + $"sellers?q={{\"Credentials.email\":\"{seller.credentials.email}\"}}";
             Log.Write($"sending query: {query}");
             var result = await m_pClient.GetAsync(query);
-            Log.Write($"query: {query} returned {result}");
-            return true;
-        } 
+            string received_json = result.Content.ReadAsStringAsync().Result;
+            Log.Write($"query: {query} returned {received_json}");
+            
+            List<Seller> seller_t;
+            bool ret = false;
+            try
+            {
+                seller_t = JsonConvert.DeserializeObject<List<Seller>>(received_json);
+                ret = seller_t.Count > 0;
+
+            }catch(Exception exc)
+            {
+                Log.Write(exc.ToString());
+            }
+            return ret;
+        }
+
+        public async Task<Seller> getSellerByEmail(Credentials credentials)
+        {
+            List<Seller> seller_t = new List<Seller>();
+            bool ret = false;
+            using(var seller = new Seller(credentials))
+            {
+                string query = m_sUrl + $"sellers?q={{\"Credentials.email\":\"{seller.credentials.email}\"}}";
+                Log.Write($"sending query: {query}");
+                var result = await m_pClient.GetAsync(query);
+                string received_json = result.Content.ReadAsStringAsync().Result;
+                Log.Write($"query: {query} returned {received_json}");
+
+                try
+                {
+                    seller_t = JsonConvert.DeserializeObject<List<Seller>>(received_json);
+                    ret = seller_t.Count > 0;
+
+                }
+                catch (Exception exc)
+                {
+                    Log.Write(exc.ToString());
+                }
+
+            }
+            return ret ? seller_t[0] : null;
+        }
     }
 }
