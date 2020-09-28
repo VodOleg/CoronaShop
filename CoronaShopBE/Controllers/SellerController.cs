@@ -17,8 +17,7 @@ namespace CoronaShopBE.Controllers
         SellersManager m_pSellersManager;
         public SellerController()
         {
-            m_pSellersManager = new SellersManager();
-            
+            m_pSellersManager = CoronaShopService.getSellerManager();
         }
 
 

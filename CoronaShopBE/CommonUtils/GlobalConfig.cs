@@ -8,16 +8,28 @@ namespace CoronaShopBE
 {
     public static class GlobalConfig
     {
-        public static string databaseURL;
-        public static string logPath;
-        public static string databaseKey;
-        public static int connectionTimeout;
+        private static IConfiguration m_pConfig;
+        public static string databaseURL = "";
+        public static string logPath = "";
+        public static string databaseKey = "";
+        public static int connectionTimeout = 0;
+        public static string databaseProvider = "";
+        public static string databaseName = "";
+
         public static void Load(IConfiguration configuration)
         {
-            databaseURL = configuration.GetValue<string>("databaseURL");
-            databaseKey = configuration.GetValue<string>("databaseKey");
+            m_pConfig = configuration;
+            databaseProvider = configuration["database:provider"];
+            databaseURL = configuration[$"database:databases:{databaseProvider}:databaseURL"];
+            databaseKey = configuration[$"database:databases:{databaseProvider}:databaseKey"];
+            databaseName = configuration[$"database:databases:{databaseProvider}:databaseName"];
             logPath = configuration.GetValue<string>("logPath");
             connectionTimeout = configuration.GetValue<int>("connectionTimeout");
+        }
+
+        public static string getValue(string key)
+        {
+            return m_pConfig[key];
         }
     }
 }

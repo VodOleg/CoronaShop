@@ -13,9 +13,9 @@ namespace CoronaShopBE.BusinessLogic
     {
         DatabaseAccess m_pDB; 
         //private readonly ILogger m_pLogger;
-        public SellersManager()
+        public SellersManager(DatabaseAccess db)
         {
-            m_pDB = new DatabaseAccess();
+            m_pDB = db;
         }
 
         public bool handleNewSeller(Credentials credentials)

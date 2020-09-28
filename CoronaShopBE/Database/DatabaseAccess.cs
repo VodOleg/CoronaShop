@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoronaShopBE.Database.restdb_implementation;
 using CoronaShopBE.Dto;
 using Microsoft.Extensions.Configuration;
 
-namespace CoronaShopBE.Database.restdb_implementation
+namespace CoronaShopBE.Database
 {
     public class DatabaseAccess : DatabaseInterface
     {

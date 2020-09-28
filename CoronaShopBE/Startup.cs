@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
+using CoronaShopBE.BusinessLogic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace CoronaShopBE
 {
@@ -22,6 +16,7 @@ namespace CoronaShopBE
             Configuration = configuration;
             GlobalConfig.Load(configuration);
             Log.Start();
+            CoronaShopService.Init();
         }
 
         public IConfiguration Configuration { get; }
