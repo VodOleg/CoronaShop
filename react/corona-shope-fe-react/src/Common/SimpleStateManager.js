@@ -8,18 +8,32 @@ class SimpleStateManager{
         this.m_bIsLogged = false;
         this.email = "";
         this.developmentMode = (window.location.port === '3000')
+        this.sellerData = {};
     }
 
-    setIsLogged(isLogged_, email){
-        this.m_bIsLogged = isLogged_;
-        if (isLogged_)
-            this.email = email;
-        else
-            this.email = "";
+    setIsLogged(user){
+        console.log(user);
+        this.m_bIsLogged = user.authenticated;
+        if (user.authenticated)
+            this.updateSeller(user.data);
+    }
+
+    updateSeller(data){
+        if(data.hasOwnProperty("data")){
+            this.email = data.data.Credentials.email;
+            this.sellerData = data.data;
+        }else{
+            this.email = data.Credentials.email;
+            this.sellerData = data;
+        }
     }
 
     getUserEmail(){
         return this.email;
+    }
+
+    getUserData(){
+        return this.sellerData;
     }
 
     isDevelopmentMode(){

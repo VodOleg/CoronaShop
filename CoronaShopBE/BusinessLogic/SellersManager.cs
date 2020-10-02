@@ -45,7 +45,7 @@ namespace CoronaShopBE.BusinessLogic
             var task = m_pDB.getSellerByEmail(creds);
             task.Wait();
             Seller ret = task.Result;
-            if (ret.credentials.Equals(creds))
+            if (ret != null && ret.credentials.Equals(creds))
                 return ret;
             return null;
         }

@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import LandingPage from './Components/LandingPage/LandingPage';
 import SellerPage from './Components/SellerPage/SellerPage';
 import ProtectedRoute from './Common/ProtectedRoute';
+//import store from './StateManager/store';
 
 window.onbeforeunload = function(e){
   e.preventDefault();

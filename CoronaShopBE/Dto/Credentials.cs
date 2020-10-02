@@ -12,6 +12,7 @@ namespace CoronaShopBE.Dto
         public string email { get; set; }
 
         [JsonProperty("pw")]
+        [JsonIgnore]
         public string pw { get; set; }
 
         public Credentials(string user, string pw_)

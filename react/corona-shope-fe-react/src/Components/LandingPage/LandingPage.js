@@ -67,9 +67,9 @@ class LoginForm extends Component{
         e.preventDefault();
         if (this.state.renderingLoginForm){
             let user = await BE.tryLogIn(this.state.email, this.state.pw);
-            console.log(user);
-            let success = user.authenticated;
-            SimpleStateManager.setIsLogged(success, this.state.email);
+            if (!user.authenticated)
+                alert("Credentials incorrect or email not registered");
+            SimpleStateManager.setIsLogged(user);
         }else {
             if ( this.state.repeatedIsCorrect ){
                 let response = await BE.tryRegister(this.state.email, this.state.pw);

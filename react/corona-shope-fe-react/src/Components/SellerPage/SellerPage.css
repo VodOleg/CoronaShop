@@ -1,0 +1,36 @@
+
+.addShopDiv{
+    margin: 2% 2%;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border:1px solid;
+}
+
+
+.addShopDivInner{
+    position: relative;
+    width: 50%;
+    height: 30%;
+    margin: auto;
+    margin-top: 35%;
+    text-align: center;
+    border:1px dotted;
+    cursor: pointer;
+}
+
+.sellerheader{
+    text-align: center;
+    font-weight: bold;
+    background: cyan;
+    border-bottom: darkcyan 2px solid;
+}
+
+.bodyDiv{
+    margin:10%;
+}
+
+.bodyContent{
+    border:5px solid gray;
+    box-shadow: 0px 5px lightgray;
+}

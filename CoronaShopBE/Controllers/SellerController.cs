@@ -27,8 +27,7 @@ namespace CoronaShopBE.Controllers
         public IActionResult Login([FromBody] Credentials creds)
         {   
             Seller authenticated = m_pSellersManager.handleSellerLoginTry(creds);
-            string data = authenticated != null ? JsonConvert.SerializeObject(authenticated) : "none";
-            string response = $"{{\"response\":\"{authenticated!=null}\",\"data\":{data}}}";
+            string response = responseGenerator<Seller>(authenticated != null, authenticated);
             return Ok(response);
         }
 
@@ -37,9 +36,17 @@ namespace CoronaShopBE.Controllers
         public IActionResult Register([FromBody] Credentials creds)
         {
             bool handleNewUserResult = m_pSellersManager.handleNewSeller(creds);
-            string response = $"{{\"response\":\"{handleNewUserResult}\",\"data\":\"somedata\"}}";
+            string response = responseGenerator<Seller>(handleNewUserResult, new Seller(creds));
             return Ok(response);
         }
-        
+
+        private string responseGenerator<T>(bool isOK, T data_)
+        {
+            string data = data_ != null ? JsonConvert.SerializeObject(data_) : "none";
+            string ret = $"{{\"response\":\"{isOK}\",\"data\":{data}}}";
+            return ret;
+        }
+
+
     }
 }

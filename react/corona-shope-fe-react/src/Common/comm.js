@@ -35,7 +35,6 @@ class BE_Comm{
             'pw':pw
         }
         let res = await this.send_request('Seller/Login',body);
-        console.log(res);
         if(UF.isDefined(res) && UF.isDefined(res.data)){
             user.authenticated = res.data.response === "True";
             user.data = res.data.data;
