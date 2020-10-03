@@ -9,6 +9,7 @@ class SimpleStateManager{
         this.email = "";
         this.developmentMode = (window.location.port === '3000')
         this.sellerData = {};
+
     }
 
     setIsLogged(user){
@@ -34,6 +35,14 @@ class SimpleStateManager{
 
     getUserData(){
         return this.sellerData;
+    }
+
+    getShop(link){
+        console.log(this.sellerData);
+        var result = this.sellerData.Shops.find(obj => {
+            return obj.PlatformLink === link
+          })
+        return result;
     }
 
     isDevelopmentMode(){

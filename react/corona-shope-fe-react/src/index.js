@@ -9,6 +9,7 @@ import LandingPage from './Components/LandingPage/LandingPage';
 import SellerPage from './Components/SellerPage/SellerPage';
 import ProtectedRoute from './Common/ProtectedRoute';
 //import store from './StateManager/store';
+import ShopManager from './Components/SellerPage/ShopManager';
 
 window.onbeforeunload = function(e){
   e.preventDefault();

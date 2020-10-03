@@ -4,21 +4,31 @@ import {UtilityFunctions as UF} from '../../Common/Util';
 import SSM from './../../Common/SimpleStateManager';
 import Wrap from './../../Common/Wrap';
 import './SellerPage.css';
+import { Redirect } from 'react-router-dom';
+import ShopManager from './ShopManager';
+
+
 
 export default class SellerPage extends Component {
+
     constructor(props){
         super(props);
         this.email = SSM.getUserEmail();
+        this.state = {
+            page : "main"
+        }
         
     }
 
     navigate(where){
         switch(where){
             case "newShop":
-                console.log("redirect to create new shop.. Modal ?");
+                this.setState({page:""})
                 break;
             default:
+                this.setState({page:where})
                 console.log("navigate to " + where+ " is not supported yet.")
+                break;
         }
     }
 
@@ -47,15 +57,15 @@ export default class SellerPage extends Component {
             return '';
         }
         let ele = 
-        <Card style={{ width: '18rem' }}>
+        <Card style={{ width: '18rem', margin:"2% 2%", float:"left" }} key={shop.PlatformLink}>
             <Card.Img variant="top" src={shop.themePictureUrl} />
             <Card.Body>
                 <Card.Title>{shop.Name}</Card.Title>
                 <Card.Text>
-                    {shop.Description}
+                    {shop.Description}<br />{shop.PlatformLink}
                 </Card.Text>
-                <Button variant="light">Manage</Button>
-                <Button variant="danger" size="sm">Delete</Button>
+                <Button variant="light" onClick={()=>this.navigate(shop.PlatformLink)}>Manage</Button>
+                <Button variant="danger" size="sm" onClick={()=>{console.log("delete not implemented yet")}}>Delete</Button>
             </Card.Body>
         </Card>
 
@@ -78,10 +88,17 @@ export default class SellerPage extends Component {
         </Wrap>
         return ele;
     }
+
+    renderShop(){
+        let ele = <ShopManager shopLink={this.state.page} />;
+        return ele;
+    }
+
+
     render() {
         return (
             <Wrap>
-                {this.renderWelcome()}
+                {this.state.page === "main" ? this.renderWelcome() : this.renderShop()}
             </Wrap>
         )
     }

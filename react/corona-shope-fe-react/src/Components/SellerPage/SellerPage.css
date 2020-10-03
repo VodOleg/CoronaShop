@@ -5,6 +5,7 @@
     height: 200px;
     overflow: hidden;
     border:1px solid;
+    float:left;
 }
 
 
@@ -33,4 +34,5 @@
 .bodyContent{
     border:5px solid gray;
     box-shadow: 0px 5px lightgray;
+    display:flex;
 }

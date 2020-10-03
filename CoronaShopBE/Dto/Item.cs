@@ -18,7 +18,7 @@ namespace CoronaShopBE.Dto
         public string description { get; set; }
 
         [JsonProperty("Price")]
-        public float price { get; set; }
+        public double price { get; set; }
 
         [JsonProperty("Category")]
         public string category { get; set; }
