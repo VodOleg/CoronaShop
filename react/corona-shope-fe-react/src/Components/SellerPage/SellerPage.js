@@ -33,7 +33,7 @@ export default class SellerPage extends Component {
     }
 
     renderAddShopAction(){
-        let ele = <div className="addShopDiv">
+        let ele = <div className="addShopDiv" key="newShop">
             <h6 style={{textAlign:"center"}}>Add new shop</h6>
             <div className="addShopDivInner" id="newShop" onClick={()=>this.navigate("newShop")}>
                 <h1>+</h1>

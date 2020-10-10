@@ -66,6 +66,21 @@ class BE_Comm{
 
     }
 
+    async checkShopLink(shopLink, simulate=true){
+        let res;
+        if (SSM.developmentMode){
+            return simulate;
+        }else{
+            let body={
+                PlatformLink:shopLink
+            }
+            res = await this.send_request('Public/GetShop', body);
+            if(UF.isDefined(res) && UF.isDefined(res.data.response)){
+                return res.data.response === "True";
+            }
+        }
+    }
+
     async send_request(controller, body){
         let config = {
             headers: {

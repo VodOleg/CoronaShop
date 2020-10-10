@@ -60,10 +60,7 @@ namespace CoronaShopBE.Database.restdb_implementation
             using(var seller = new Seller(credentials))
             {
                 string query = m_sUrl + $"sellers?q={{\"Credentials.email\":\"{seller.credentials.email}\"}}";
-                Log.Write($"sending query: {query}");
-                var result = await m_pClient.GetAsync(query);
-                string received_json = result.Content.ReadAsStringAsync().Result;
-                Log.Write($"query: {query} returned {received_json}");
+                var received_json = this.send(query).Result;
 
                 try
                 {
@@ -79,5 +76,21 @@ namespace CoronaShopBE.Database.restdb_implementation
             }
             return ret ? seller_t[0] : null;
         }
+
+        public async Task<Shop> getShopByLink(string link)
+        {
+            string query = m_sUrl + $"sellers?q={{\"Shops\":{{\"PlatformLink\":\"{link}\"}}";
+            string res = send(query).Result;
+            return null;
+        }
+
+        private async Task<string> send(string query)
+        {
+            var result = await m_pClient.GetAsync(query);
+            string received_json = result.Content.ReadAsStringAsync().Result;
+            Log.Write($"query: {query} returned {received_json}");
+            return received_json;
+        }
+
     }
 }

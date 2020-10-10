@@ -10,6 +10,28 @@ class SimpleStateManager{
         this.developmentMode = (window.location.port === '3000')
         this.sellerData = {};
 
+        if(this.developmentMode){
+            this.email = "test@test.test";
+            this.sellerData = {
+                _id: "123123asdf1",
+                Credentials: {
+                     email:"test@test.test"
+                },
+                Shops: [
+                     {
+                        Name: "Test1 shop",
+                        Description: "Test shop that sells nothing, but some text is musâ€¦ see how the text looks like and a test text test",
+                        Location: "Givatayim",
+                        ShopConfiguration: {
+                            Delivery: true,
+                            Hours: "14:00 - 18:00",
+                            TakeAway: true
+                        },
+                        PlatformLink: "test1_ovo"
+                     }]
+                }
+    }
+
     }
 
     setIsLogged(user){
@@ -20,6 +42,9 @@ class SimpleStateManager{
     }
 
     updateSeller(data){
+        if(this.developmentMode){
+            return;
+        }
         if(data.hasOwnProperty("data")){
             this.email = data.data.Credentials.email;
             this.sellerData = data.data;
