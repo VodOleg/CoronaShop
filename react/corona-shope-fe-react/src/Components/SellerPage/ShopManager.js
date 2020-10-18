@@ -129,7 +129,7 @@ export default class ShopManager extends Component {
     checklinkValidity =(event) =>{
         const textInput = event.currentTarget;
         BE.shopLinkIsUsed(textInput.value).then((res)=>{
-            if (!res){
+            if (res){
                 this.setState({modal:{
                     showModal:true,
                     message:"This Link already in use"

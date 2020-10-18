@@ -67,19 +67,22 @@ class BE_Comm{
     }
 
     async shopLinkIsUsed(shopLink, simulate=true){
-        let res;
         if (SSM.developmentMode){
             return simulate;
         }else{
-            let body={
-                PlatformLink:shopLink
-            }
-            res = await this.send_request(`Public/${shopLink}`, body, 'get');
-            console.log(res);
-            if(UF.isDefined(res) && UF.isDefined(res.data.response)){
-                return UF.isDefined(res.data.response) && res.data.response === "False";
-            }
+            let shopis = await this.getShop(shopLink); 
+            return shopis != null;
         }
+    }
+    
+    async getShop(shopID){
+        
+        let res = await this.send_request(`Public/${shopID}`, null, 'get');
+        
+        if(UF.isDefined(res) && UF.isDefined(res.data.response) && UF.isDefined(res.data.data)){
+            return res.data.data;
+        }
+        return null;
     }
 
     async send_request(controller, body, type='post'){
