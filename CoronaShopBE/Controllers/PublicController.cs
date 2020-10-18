@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoronaShopBE.BusinessLogic;
+using CoronaShopBE.CommonUtils;
 using CoronaShopBE.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +25,8 @@ namespace CoronaShopBE.Controllers
         public IActionResult GetShop(string shopID)
         {
             Shop shop = m_pPublicManager.GetShop(shopID);
-
-            Log.Write($"requested shop id {shopID} got ");
-            return Ok("ok oleg");
+            string response = Utils.responseGenerator<Shop>(shop != null, shop);
+            return Ok(response);
         }
     }
 }

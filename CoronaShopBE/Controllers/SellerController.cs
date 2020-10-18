@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoronaShopBE.BusinessLogic;
+using CoronaShopBE.CommonUtils;
 using CoronaShopBE.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -61,7 +62,7 @@ namespace CoronaShopBE.Controllers
             {
                 authenticated = m_pSellersManager.handleSellerLoginTry(creds);
             }
-            string response = responseGenerator<Seller>(authenticated != null, authenticated);
+            string response = Utils.responseGenerator<Seller>(authenticated != null, authenticated);
             return Ok(response);
         }
 
@@ -70,17 +71,10 @@ namespace CoronaShopBE.Controllers
         public IActionResult Register([FromBody] Credentials creds)
         {
             bool handleNewUserResult = m_pSellersManager.handleNewSeller(creds);
-            string response = responseGenerator<Seller>(handleNewUserResult, new Seller(creds));
+            string response = Utils.responseGenerator<Seller>(handleNewUserResult, new Seller(creds));
             return Ok(response);
         }
-
-        private string responseGenerator<T>(bool isOK, T data_)
-        {
-            string data = data_ != null ? JsonConvert.SerializeObject(data_) : "none";
-            string ret = $"{{\"response\":\"{isOK}\",\"data\":{data}}}";
-            return ret;
-        }
-
+        
 
     }
 }

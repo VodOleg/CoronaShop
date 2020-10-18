@@ -53,41 +53,59 @@ namespace CoronaShopBE.Database.restdb_implementation
             return ret;
         }
 
-        public async Task<Seller> getSellerByEmail(Credentials credentials)
-        {
+        private Seller parseSellerFromString(string jsonedSellers) {
+            // we should receive one seller, but db query returns always list
             List<Seller> seller_t = new List<Seller>();
             bool ret = false;
-            using(var seller = new Seller(credentials))
+            
+            try
             {
-                string query = m_sUrl + $"sellers?q={{\"Credentials.email\":\"{seller.credentials.email}\"}}";
-                var received_json = this.send(query).Result;
-
-                try
-                {
-                    seller_t = JsonConvert.DeserializeObject<List<Seller>>(received_json);
-                    ret = seller_t.Count > 0;
-
-                }
-                catch (Exception exc)
-                {
-                    Log.Write(exc.ToString());
-                }
+                seller_t = JsonConvert.DeserializeObject<List<Seller>>(jsonedSellers);
+                ret = seller_t.Count > 0;
 
             }
+            catch (Exception exc)
+            {
+                Log.Write(exc.ToString());
+            }
+            
             return ret ? seller_t[0] : null;
+        }
+
+        public async Task<Seller> getSellerByEmail(Credentials credentials)
+        {
+            string query = m_sUrl + $"sellers?q={{\"Credentials.email\":\"{credentials.email}\"}}";
+            var received_json = this.send(query).Result;
+            return parseSellerFromString(received_json);
         }
 
         public Shop getShop(string shopId)
         {
-            Shop shop = new Shop();// = getShopByLink(shopId);
+            Shop shop = null;
             string jsonedShop = getShopByLink(shopId);
             Log.Write($"received shop: {jsonedShop}");
+
+            //we receive the whole seller object when querying this db
+            Seller seller = parseSellerFromString(jsonedShop);
+            if (seller != null)
+            {
+                foreach (var shop_ in seller.shops)
+                {
+                    if (shop_.platformLink == shopId)
+                    {
+                        shop = shop_;
+                    }
+                }
+            }
+
             return shop;
         }
 
         public string getShopByLink(string link)
         {
-            string query = m_sUrl + $"sellers?q={{\"Shops\":{{\"PlatformLink\":\"{link}\"}}";
+            //?q={"Shops":{"PlatformLink":"asdf"}}
+            string q = "sellers?q={\"Shops\":{\"PlatformLink\":\"" + link + "\"}}";
+            string query = m_sUrl + q; //$"sellers?q={{\"Shops\":{{\"PlatformLink\":\"{link}\"}}";
             var res = send(query).Result;
             return res;
         }

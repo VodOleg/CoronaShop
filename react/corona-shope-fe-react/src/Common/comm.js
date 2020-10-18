@@ -66,7 +66,7 @@ class BE_Comm{
 
     }
 
-    async checkShopLink(shopLink, simulate=true){
+    async shopLinkIsUsed(shopLink, simulate=true){
         let res;
         if (SSM.developmentMode){
             return simulate;
@@ -77,7 +77,7 @@ class BE_Comm{
             res = await this.send_request(`Public/${shopLink}`, body, 'get');
             console.log(res);
             if(UF.isDefined(res) && UF.isDefined(res.data.response)){
-                return UF.isDefined(res.data.response) && res.data.response === "True";
+                return UF.isDefined(res.data.response) && res.data.response === "False";
             }
         }
     }
