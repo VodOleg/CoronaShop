@@ -128,7 +128,7 @@ export default class ShopManager extends Component {
 
     checklinkValidity =(event) =>{
         const textInput = event.currentTarget;
-        BE.checkShopLink(textInput).then((res)=>{
+        BE.checkShopLink(textInput.value).then((res)=>{
             if (!res){
                 this.setState({modal:{
                     showModal:true,

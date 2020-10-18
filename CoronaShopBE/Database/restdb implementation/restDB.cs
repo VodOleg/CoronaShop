@@ -77,18 +77,26 @@ namespace CoronaShopBE.Database.restdb_implementation
             return ret ? seller_t[0] : null;
         }
 
-        public async Task<Shop> getShopByLink(string link)
+        public Shop getShop(string shopId)
+        {
+            Shop shop = new Shop();// = getShopByLink(shopId);
+            string jsonedShop = getShopByLink(shopId);
+            Log.Write($"received shop: {jsonedShop}");
+            return shop;
+        }
+
+        public string getShopByLink(string link)
         {
             string query = m_sUrl + $"sellers?q={{\"Shops\":{{\"PlatformLink\":\"{link}\"}}";
-            string res = send(query).Result;
-            return null;
+            var res = send(query).Result;
+            return res;
         }
 
         private async Task<string> send(string query)
         {
             var result = await m_pClient.GetAsync(query);
-            string received_json = result.Content.ReadAsStringAsync().Result;
-            Log.Write($"query: {query} returned {received_json}");
+            var received_json = result.Content.ReadAsStringAsync().Result;
+            /*Log.Write($"query: {query} returned {received_json}");*/
             return received_json;
         }
 

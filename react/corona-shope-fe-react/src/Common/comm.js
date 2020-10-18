@@ -74,14 +74,15 @@ class BE_Comm{
             let body={
                 PlatformLink:shopLink
             }
-            res = await this.send_request('Public/GetShop', body);
+            res = await this.send_request(`Public/${shopLink}`, body, 'get');
+            console.log(res);
             if(UF.isDefined(res) && UF.isDefined(res.data.response)){
-                return res.data.response === "True";
+                return UF.isDefined(res.data.response) && res.data.response === "True";
             }
         }
     }
 
-    async send_request(controller, body){
+    async send_request(controller, body, type='post'){
         let config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -89,9 +90,14 @@ class BE_Comm{
             }
         };
         let request = this.BE_URL+'/api/'+controller;
+        console.log(`sending request to:`,request);
         let response = null;
         try{
-            response = await axios.post(request,body,config);
+            if (type ==='post'){
+                response = await axios.post(request,body,config);
+            }else if(type ==='get'){
+                response = await axios.get(request,config);
+            }
         }catch(exc){
         }
         return response;

@@ -31,5 +31,10 @@ namespace CoronaShopBE.Database.MongoDBImplementation
         {
             throw new NotImplementedException();
         }
+
+        public Shop getShop(string shopId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

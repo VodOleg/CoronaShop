@@ -33,5 +33,10 @@ namespace CoronaShopBE.Database
         {
             return m_pDatabase.getSellerByEmail(credentials);
         }
+
+        public Shop getShop(string shopId)
+        {
+            return m_pDatabase.getShop(shopId);
+        }
     }
 }
