@@ -1,0 +1,6 @@
+﻿1. Delete shop issues:
+	a. on credentials confirmation, both passwords are null so the check always passes.
+	b. resdbio issue, failes to pull the shop from the array.
+2. Implement shop management window
+	a. Implement add item to shop routine
+	b. Etc.. 

@@ -43,5 +43,10 @@ namespace CoronaShopBE.Database
         {
             return m_pDatabase.updateShop(seller);
         }
+
+        public bool DeleteShop(string shopID, Seller shopOwner)
+        {
+            return m_pDatabase.DeleteShop(shopID, shopOwner);
+        }
     }
 }

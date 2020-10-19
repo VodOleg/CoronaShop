@@ -89,6 +89,20 @@ class BE_Comm{
             return true;
         }
         let res = await this.send_request('Seller/AddShop',body);
+        return this.processResponse(res);
+    }
+
+    async deleteShop(shopID, pwConfirmation){
+        // this is here for ease of debugging
+        let body = {
+            email:SSM.getUserEmail(),
+            pw:pwConfirmation
+        }
+        let res = await this.send_request(`Seller/DeleteShop/${shopID}`, body);
+        return this.processResponse(res);
+    }
+
+    processResponse(res){
         return UF.isDefined(res) && UF.isDefined(res.data.response) && res.data.response==="True";
     }
 

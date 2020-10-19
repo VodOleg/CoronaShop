@@ -55,5 +55,24 @@ namespace CoronaShopBE.BusinessLogic
             bool updated = m_pDB.updateShop(seller);
             return updated;
         }
+
+        public bool DeleteShop(string shopID, Credentials credentials)
+        {
+            // first validate credentials against this shop user credentials
+            Task<Seller> task_ = m_pDB.getSellerByEmail(credentials);
+            task_.Wait();
+            Seller shopOwner = task_.Result;
+            
+            if (shopOwner.credentials.pw != credentials.pw)
+            {
+                return false;
+            }
+
+            //now remove the shop
+            bool shopDeleted = m_pDB.DeleteShop(shopID, shopOwner);
+
+
+            return shopDeleted;
+        }
     }
 }

@@ -20,5 +20,6 @@ namespace CoronaShopBE.Database
 
         Shop getShop(string shopId);
         bool updateShop(Seller seller);
+        bool DeleteShop(string shopID, Seller shopOwner);
     }
 }

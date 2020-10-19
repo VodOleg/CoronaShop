@@ -4,8 +4,8 @@ import {UtilityFunctions as UF} from '../../Common/Util';
 import SSM from './../../Common/SimpleStateManager';
 import Wrap from './../../Common/Wrap';
 import './SellerPage.css';
-import { Redirect } from 'react-router-dom';
 import ShopManager from './ShopManager';
+import BE from '../../Common/comm';
 
 
 
@@ -65,11 +65,19 @@ export default class SellerPage extends Component {
                     {shop.Description}<br />{shop.PlatformLink}
                 </Card.Text>
                 <Button variant="light" onClick={()=>this.navigate(shop.PlatformLink)}>Manage</Button>
-                <Button variant="danger" size="sm" onClick={()=>{console.log("delete not implemented yet")}}>Delete</Button>
+                <Button variant="danger" size="sm" onClick={()=>{this.deleteShop(shop.PlatformLink)}}>Delete</Button>
             </Card.Body>
         </Card>
 
         return ele;
+    }
+
+    deleteShop(shopLink){
+        let pwConfirmation = prompt("Re enter your password for confirmation.");
+        let res = BE.deleteShop(shopLink, pwConfirmation);
+        if (res){
+            alert("shop deleted");
+        }
     }
 
     renderWelcome(){

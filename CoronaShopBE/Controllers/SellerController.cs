@@ -84,6 +84,14 @@ namespace CoronaShopBE.Controllers
             return Ok(response);
         }
 
+        [HttpPost("DeleteShop/{shopID}")]
+        public IActionResult DeleteShop(string shopID, [FromBody] Credentials credentials)
+        {
+            bool shopDeleted = m_pSellersManager.DeleteShop(shopID, credentials);
+            string response = Utils.responseGenerator<Shop>(shopDeleted, null);
+            return Ok(response);
+        }
+
 
     }
 }

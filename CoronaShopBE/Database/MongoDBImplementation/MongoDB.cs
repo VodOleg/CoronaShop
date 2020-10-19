@@ -27,6 +27,11 @@ namespace CoronaShopBE.Database.MongoDBImplementation
             throw new NotImplementedException();
         }
 
+        public bool DeleteShop(string shopID, Seller shopOwner)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Seller> getSellerByEmail(Credentials credentials)
         {
             throw new NotImplementedException();

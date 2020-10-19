@@ -147,5 +147,35 @@ namespace CoronaShopBE.Database.restdb_implementation
             return received_json;
             
         }
+
+        public bool DeleteShop(string shopID, Seller seller)
+        {
+//         https://<dbname>.restdb.io/rest/blog/588f439418f328ec5e024277
+//          { "$pull": { "comments": "This is a comment to a blog post."} }
+            string q = "sellers/"+seller._id;
+            Shop shopToDelete = null;
+            for (int i =0; i< seller.shops.Count; i++)
+            {
+                if (seller.shops[i].platformLink == shopID)
+                {
+                    shopToDelete = seller.shops[i];
+                    break;
+                }
+            }
+
+            if(shopToDelete == null)
+            {
+                return false;
+            }
+
+            string content_core = JsonConvert.SerializeObject(shopToDelete);
+            string query = m_sUrl + q;
+            string content = "{\"$pull\":{\"Shops\":" + content_core + "}}";
+            var putTask = sendPut(query, content);
+            var res = putTask.Result;
+            return true;
+        }
+
+
     }
 }
