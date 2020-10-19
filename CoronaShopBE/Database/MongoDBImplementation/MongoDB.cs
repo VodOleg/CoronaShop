@@ -36,5 +36,10 @@ namespace CoronaShopBE.Database.MongoDBImplementation
         {
             throw new NotImplementedException();
         }
+
+        public bool updateShop(Seller seller)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

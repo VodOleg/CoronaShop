@@ -38,5 +38,10 @@ namespace CoronaShopBE.Database
         {
             return m_pDatabase.getShop(shopId);
         }
+
+        public bool updateShop(Seller seller)
+        {
+            return m_pDatabase.updateShop(seller);
+        }
     }
 }

@@ -19,5 +19,6 @@ namespace CoronaShopBE.Database
         Task<Seller> getSellerByEmail(Credentials credentials);
 
         Shop getShop(string shopId);
+        bool updateShop(Seller seller);
     }
 }

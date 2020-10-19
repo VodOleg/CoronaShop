@@ -75,6 +75,19 @@ class BE_Comm{
         }
     }
     
+    async addNewShop(details){
+        let body = {
+            Credentials:{
+                email:SSM.getUserEmail(),
+                pw:"blunk"
+            },
+            Shops:[details]
+        }
+        console.log(details);
+        let res = await this.send_request('Seller/AddShop',body);
+        console.log(res);
+    }
+
     async getShop(shopID){
         
         let res = await this.send_request(`Public/${shopID}`, null, 'get');

@@ -7,6 +7,7 @@ using System.Web;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
+using System.Net.Http.Headers;
 
 namespace CoronaShopBE.Database.restdb_implementation
 {
@@ -118,5 +119,34 @@ namespace CoronaShopBE.Database.restdb_implementation
             return received_json;
         }
 
+        public bool updateShop(Seller seller)
+        {
+            var task = getSellerByEmail(seller.credentials);
+            task.Wait();
+            Seller dbSeller = task.Result;
+            if (dbSeller == null)
+            {
+                Log.Write("error occured while trying to receive seller");
+                return false;
+            }
+
+            string query = "sellers/"+dbSeller._id;
+            
+            string content_core = JsonConvert.SerializeObject(seller.shops[0]);
+
+            string content = "{\"$push\":{\"Shops\":" + content_core + "}}";
+            var putTask = sendPut(query, content);
+            var res = putTask.Result;
+            Log.Write("updated seller");
+            return true;
+        }
+
+        private async Task<string> sendPut(string query, string jsonedContent ) {
+            var httpContent = new StringContent(jsonedContent, Encoding.UTF8, "application/json");
+            var result = await m_pClient.PutAsync(m_sUrl+ query,httpContent);
+            var received_json = result.Content.ReadAsStringAsync().Result;
+            return received_json;
+            
+        }
     }
 }

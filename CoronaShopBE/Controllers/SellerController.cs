@@ -74,7 +74,17 @@ namespace CoronaShopBE.Controllers
             string response = Utils.responseGenerator<Seller>(handleNewUserResult, new Seller(creds));
             return Ok(response);
         }
-        
+
+        [HttpPost]
+        [Route("AddShop")]
+        public IActionResult AddShop([FromBody] Seller seller)
+        {
+            bool handledNewShop = m_pSellersManager.handleNewShop(seller);
+            //bool handleNewUserResult = m_pSellersManager.handleNewSeller(creds);
+            //string response = Utils.responseGenerator<Seller>(handleNewUserResult, new Seller(creds));
+            return Ok("sdf");
+        }
+
 
     }
 }

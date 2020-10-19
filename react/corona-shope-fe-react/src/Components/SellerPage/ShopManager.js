@@ -6,6 +6,7 @@ import Wrap from './../../Common/Wrap';
 import './SellerPage.css';
 import SimpleMessageModal from './../SimpleMessageModal/SimpleMessageModal';
 import BE from './../../Common/comm';
+import ShopCreationForm from './ShopCreationForm';
 
 export default class ShopManager extends Component {
     constructor(props){
@@ -30,114 +31,11 @@ export default class ShopManager extends Component {
     }
 
     renderShopCreationForm(){
-        let validated = this.state.form.isValid;
-
-        let ele = 
-        <div className="bodyDiv">
-            <div className="bodyContent">
-        <Form className="createShopForm" noValidate validated={validated} onSubmit={this.handleSubmit}>
-        <Form.Row>
-          <Form.Group as={Col} md="4" controlId="validationCustom01">
-            <Form.Label>Shop Name</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="MyShop"
-              defaultValue=""
-            />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group as={Col} md="4" controlId="validationCustom02">
-            <Form.Label>Location</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Tel Aviv, Israel"
-              defaultValue=""
-            />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-          </Form.Group>
-          
-          <Form.Group as={Col} md="4" controlId="validationCustomUsername">
-            <Form.Label>Shop Link</Form.Label>
-            <InputGroup>
-              <InputGroup.Prepend>
-                <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
-              </InputGroup.Prepend>
-              <Form.Control
-                type="text"
-                placeholder="Shop Link"
-                aria-describedby="inputGroupPrepend"
-                required
-                onBlur={this.checklinkValidity.bind(this)}
-              />
-              
-              <Form.Control.Feedback type="invalid">
-                This link is already taken.
-              </Form.Control.Feedback>
-            </InputGroup>
-          </Form.Group>
-        </Form.Row>
-        <Form.Row>
-        <Form.Group controlId="ShopDescription">
-                <Form.Label>Shop Description</Form.Label>
-                <Form.Control as="textarea" rows="3" />
-          </Form.Group>
-
-        </Form.Row>
-        <Button type="submit">Submit form</Button>
-      </Form>
-      </div>
-      </div>
-      return ele;
+    let ele = <ShopCreationForm />;
+    return ele;
     }
 
 
-    handleSubmit = (event) => {
-        const form = event.currentTarget;
-        event.preventDefault();
-        event.stopPropagation();
-        if (form.checkValidity() === false) {
-            this.setState({
-                modal:{
-                    showModal: true,
-                    message:"Some information is invalid."
-                }
-            })
-        }
-
-        this.setValidated(true);
-    };
-
-    modalClosed(item){
-        this.setState({
-            modal:{
-                showModal:false,
-                message:""
-            }
-        })
-    }
-
-    setValidated(isValidated){
-        this.setState({
-            form:{
-                isValid:isValidated
-            }
-        })
-    }
-
-    checklinkValidity =(event) =>{
-        const textInput = event.currentTarget;
-        BE.shopLinkIsUsed(textInput.value).then((res)=>{
-            if (res){
-                this.setState({modal:{
-                    showModal:true,
-                    message:"This Link already in use"
-                }})    
-            }
-        })
-    }
-    
     render() {
         return (
             <Wrap>

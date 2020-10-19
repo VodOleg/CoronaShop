@@ -50,6 +50,10 @@ namespace CoronaShopBE.BusinessLogic
             return null;
         }
 
-
+        public bool handleNewShop(Seller seller)
+        {
+            bool updated = m_pDB.updateShop(seller);
+            return updated;
+        }
     }
 }
