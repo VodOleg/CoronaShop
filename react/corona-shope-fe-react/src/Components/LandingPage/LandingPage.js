@@ -72,9 +72,9 @@ class LoginForm extends Component{
             SimpleStateManager.setIsLogged(user);
         }else {
             if ( this.state.repeatedIsCorrect ){
-                let response = await BE.tryRegister(this.state.email, this.state.pw);
-                if (response.success){
-                    SimpleStateManager.setIsLogged(response.success,this.state.email);
+                let user = await BE.tryRegister(this.state.email, this.state.pw);
+                if (user.authenticated){
+                    SimpleStateManager.setIsLogged(user);
                 }else{
                     alert("Cant Register this email.");
                 }
@@ -162,7 +162,6 @@ class LoginForm extends Component{
     }
 
     render(){
-        console.log("rendering landing page: islogged = " + SSM.isLogged())
         let rendering = <Wrap>
             {!SSM.isLogged() ? this.renderMain() : this.redirectToSellerPage()}
         </Wrap>;
