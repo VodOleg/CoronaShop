@@ -167,11 +167,10 @@ namespace CoronaShopBE.Database.restdb_implementation
             {
                 return false;
             }
-
+            
             string content_core = JsonConvert.SerializeObject(shopToDelete);
-            string query = m_sUrl + q;
             string content = "{\"$pull\":{\"Shops\":" + content_core + "}}";
-            var putTask = sendPut(query, content);
+            var putTask = sendPut(q, content);
             var res = putTask.Result;
             return true;
         }

@@ -74,10 +74,13 @@ export default class SellerPage extends Component {
 
     deleteShop(shopLink){
         let pwConfirmation = prompt("Re enter your password for confirmation.");
-        let res = BE.deleteShop(shopLink, pwConfirmation);
-        if (res){
-            alert("shop deleted");
-        }
+        BE.deleteShop(shopLink, pwConfirmation).then((res)=>{
+            if (res){
+                alert("shop deleted");
+            }else{
+                alert("failed deleting shop.")
+            }
+        });
     }
 
     renderWelcome(){
