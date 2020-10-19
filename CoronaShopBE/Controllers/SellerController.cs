@@ -80,9 +80,8 @@ namespace CoronaShopBE.Controllers
         public IActionResult AddShop([FromBody] Seller seller)
         {
             bool handledNewShop = m_pSellersManager.handleNewShop(seller);
-            //bool handleNewUserResult = m_pSellersManager.handleNewSeller(creds);
-            //string response = Utils.responseGenerator<Seller>(handleNewUserResult, new Seller(creds));
-            return Ok("sdf");
+            string response = Utils.responseGenerator<Seller>(handledNewShop, null);
+            return Ok(response);
         }
 
 

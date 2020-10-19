@@ -90,8 +90,14 @@ export default class SellerPage extends Component {
     }
 
     renderShop(){
-        let ele = <ShopManager shopLink={this.state.page} />;
+        let ele = <ShopManager shopLink={this.state.page} backToManagerCB={this.backToManager.bind(this)} />;
         return ele;
+    }
+
+    backToManager(){
+        this.setState({
+            page:"main"
+        })
     }
 
 

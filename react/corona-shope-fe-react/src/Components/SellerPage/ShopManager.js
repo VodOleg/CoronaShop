@@ -12,6 +12,7 @@ export default class ShopManager extends Component {
     constructor(props){
         super(props);
         this.shopLink = props.shopLink;
+        this.backToManagerCB = props.backToManagerCB;
         this.state = {
             data: SSM.getShop(this.shopLink),
             modal: {
@@ -20,7 +21,8 @@ export default class ShopManager extends Component {
             },
             form:{
                 isValid:false
-            }
+            },
+            redirect:false
             
         }
 
@@ -31,10 +33,9 @@ export default class ShopManager extends Component {
     }
 
     renderShopCreationForm(){
-    let ele = <ShopCreationForm />;
+    let ele = <ShopCreationForm backToManagerCB={this.backToManagerCB}/>;
     return ele;
     }
-
 
     render() {
         return (

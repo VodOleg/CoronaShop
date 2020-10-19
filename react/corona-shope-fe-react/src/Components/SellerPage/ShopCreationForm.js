@@ -10,6 +10,7 @@ import BE from './../../Common/comm';
 export default class ShopCreationForm extends Component {
     constructor(props){
         super(props);
+        this.backToManagerCB = props.backToManagerCB;
         this.state = {
             modal: {
                 showModal: false,
@@ -135,7 +136,14 @@ export default class ShopCreationForm extends Component {
   </Form.Group>
 
 </Form.Row>
+        <Form.Row>
+        <Form.Group>
         <Button type="submit">Submit form</Button>
+        <Button type="button" variant="secondary" onClick={()=>this.backToManagerCB()}>Back</Button>
+
+
+        </Form.Group>
+        </Form.Row>
       </Form>
       </div>
       </div>
@@ -167,7 +175,10 @@ export default class ShopCreationForm extends Component {
                     Delivery: this.state.mDelivery
                 }
             }
-            BE.addNewShop(shopDetails);
+            let isAdded = BE.addNewShop(shopDetails);
+            if (isAdded){
+                this.backToManagerCB();
+            }
         }
 
     };
@@ -193,8 +204,6 @@ export default class ShopCreationForm extends Component {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        console.log(`${name}:${value}`)
-        console.log(this.state.form)
         this.setState({
                 [name]: value
         });
@@ -211,7 +220,7 @@ export default class ShopCreationForm extends Component {
             }
         })
     }
-    
+
     render() {
         return (
             <Wrap>

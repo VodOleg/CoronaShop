@@ -56,13 +56,15 @@ class BE_Comm{
         }
         let res = await this.send_request('Seller/Register',body);
         
-        let retValue = {
-            success: false,
-            desc : ""
-        };
-        if(UF.isDefined(res) && UF.isDefined(res.data.response))
-            retValue.success = res.data.response === "True";
-        return retValue;
+        let user = {
+            authenticated:false,
+            data:{}
+        }
+        if(UF.isDefined(res) && UF.isDefined(res.data.response)){
+            user.authenticated = res.data.response === "True";
+            user.data = res.data.data;
+        }
+        return user;
 
     }
 
@@ -83,9 +85,11 @@ class BE_Comm{
             },
             Shops:[details]
         }
-        console.log(details);
+        if(SSM.developmentMode){
+            return true;
+        }
         let res = await this.send_request('Seller/AddShop',body);
-        console.log(res);
+        return UF.isDefined(res) && UF.isDefined(res.data.response) && res.data.response==="True";
     }
 
     async getShop(shopID){

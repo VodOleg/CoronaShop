@@ -137,7 +137,6 @@ namespace CoronaShopBE.Database.restdb_implementation
             string content = "{\"$push\":{\"Shops\":" + content_core + "}}";
             var putTask = sendPut(query, content);
             var res = putTask.Result;
-            Log.Write("updated seller");
             return true;
         }
 
