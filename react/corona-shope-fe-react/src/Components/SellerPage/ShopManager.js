@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { Card, Button, Form, Col, InputGroup } from 'react-bootstrap';
 import {UtilityFunctions as UF} from '../../Common/Util';
 import SSM from './../../Common/SimpleStateManager';
 import Wrap from './../../Common/Wrap';
 import './SellerPage.css';
 import SimpleMessageModal from './../SimpleMessageModal/SimpleMessageModal';
-import BE from './../../Common/comm';
 import ShopCreationForm from './ShopCreationForm';
+import ShopPage from './ShopPage';
 
 export default class ShopManager extends Component {
     constructor(props){
@@ -27,9 +26,15 @@ export default class ShopManager extends Component {
         }
 
     }
-
+    
     renderWelcome(){
-    return <Wrap>Hey lets start making your shop { UF.isDefined(this.state.data) ? this.state.data.Name : "new shop?" }</Wrap>
+    return <Wrap>
+    <ShopPage 
+    shopLink={this.shopLink} 
+    shopData={this.state.data}
+    backToManagerCB={this.backToManagerCB}
+    />
+    </Wrap>
     }
 
     renderShopCreationForm(){

@@ -1,3 +1,4 @@
+import testShop from './dummyShopForTests';
 /**
  * @description this class is a singleton class that manages the state for an on
  *              going session, it will store information like if session is logged in and other stuff
@@ -10,27 +11,34 @@ class SimpleStateManager{
         this.developmentMode = (window.location.port === '3000')
         this.sellerData = {};
 
-        if(this.developmentMode){
-            this.email = "test@test.test";
-            this.sellerData = {
-                _id: "123123asdf1",
-                Credentials: {
-                     email:"test@test.test"
-                },
-                Shops: [
-                     {
-                        Name: "Test1 shop",
-                        Description: "Test shop that sells nothing, but some text is musâ€¦ see how the text looks like and a test text test",
-                        Location: "Givatayim",
-                        ShopConfiguration: {
-                            Delivery: true,
-                            Hours: "14:00 - 18:00",
-                            TakeAway: true
-                        },
-                        PlatformLink: "test1_ovo"
-                     }]
-                }
-    }
+        if (this.developmentMode){
+            this.email = testShop.Credentials.email;
+            this.sellerData = testShop;
+        }
+
+
+        // if(this.developmentMode){
+        //     this.email = "test@test.test";
+        //     this.sellerData = {
+        //         _id: "123123asdf1",
+        //         Credentials: {
+        //              email:"test@test.test",
+        //              pw:"123"
+        //         },
+        //         Shops: [
+        //              {
+        //                 Name: "Test1 shop",
+        //                 Description: "Test shop that sells nothing, but some text is musâ€¦ see how the text looks like and a test text test",
+        //                 Location: "Givatayim",
+        //                 ShopConfiguration: {
+        //                     Delivery: true,
+        //                     Hours: "14:00 - 18:00",
+        //                     TakeAway: true
+        //                 },
+        //                 PlatformLink: "test1_ovo"
+        //              }]
+        //         }
+        // }
 
     }
 
@@ -53,6 +61,7 @@ class SimpleStateManager{
             this.sellerData = data;
         }
     }
+
 
     getUserEmail(){
         return this.email;

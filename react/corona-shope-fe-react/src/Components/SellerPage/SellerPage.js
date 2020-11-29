@@ -42,6 +42,18 @@ export default class SellerPage extends Component {
         return ele;
     }
 
+    updateSeller(preventRefresh=false){
+        BE.tryLogIn(SSM.getUserEmail(), SSM.getUserData().Credentials.pw).then((user)=>{
+            console.log(user);
+            if (user.hasOwnProperty('data'))
+                SSM.updateSeller(user.data);
+            else
+                console.error("corrupted data on reload")
+            if (!preventRefresh)
+                this.forceUpdate();
+        });
+    }
+
     renderShops(){
         let shopsCards = [];
         let shops = SSM.getUserData().Shops;
@@ -76,6 +88,7 @@ export default class SellerPage extends Component {
         let pwConfirmation = prompt("Re enter your password for confirmation.");
         BE.deleteShop(shopLink, pwConfirmation).then((res)=>{
             if (res){
+                this.updateSeller();
                 alert("shop deleted");
             }else{
                 alert("failed deleting shop.")
@@ -90,7 +103,7 @@ export default class SellerPage extends Component {
             </div>
             <div className="bodyDiv">
                 <div className="bodyTitle">
-                    this is your main page, here you can add and managed your shops.
+                    this is your main page, here you can add and managed your shops. <span onClick={()=>{this.updateSeller()}} style={{color:"blue", cursor:"pointer"}}>Refresh</span>
                 </div>
                 <div className="bodyContent">
                     {this.renderShops()}
@@ -106,6 +119,7 @@ export default class SellerPage extends Component {
     }
 
     backToManager(){
+        this.updateSeller(true);
         this.setState({
             page:"main"
         })

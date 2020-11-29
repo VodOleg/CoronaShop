@@ -36,7 +36,9 @@
     box-shadow: 0px 5px lightgray;
     display:flex;
 }
-
+.bodyControls{
+    
+}
 .createShopForm{
     margin:10%;
 }
