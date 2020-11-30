@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Button, Form, Col, InputGroup } from 'react-bootstrap';
+import { Card, Button, Form, Col, InputGroup, Modal } from 'react-bootstrap';
 import {UtilityFunctions as UF} from '../../Common/Util';
 import SSM from './../../Common/SimpleStateManager';
 import Wrap from './../../Common/Wrap';
@@ -8,6 +8,7 @@ import SimpleMessageModal from './../SimpleMessageModal/SimpleMessageModal';
 import BE from './../../Common/comm';
 import ShopCreationForm from './ShopCreationForm';
 import SellableItem from './../SellableItem/SellableItem';
+import ItemForm from './ItemForm';
 
 export default class ShopPage extends Component {
     constructor(props){
@@ -17,7 +18,7 @@ export default class ShopPage extends Component {
         
         this.backToManagerCB = props.backToManagerCB;
         this.state = {
-
+            renderModal: ""
         }
 
     }
@@ -43,7 +44,26 @@ export default class ShopPage extends Component {
     }
 
     addNewItemForm(){
-        console.log("add new item form implementation")
+        //show modal
+        this.setState({
+            renderModal:"newItem"
+        })
+
+    }
+
+    closeModals(){
+        this.setState({renderModal:""})
+    }
+
+    setRenderModal(modalName){
+        let ele ;
+        switch(modalName){
+            case "newItem":
+                ele = <SimpleMessageModal onClose={this.closeModals.bind(this)} >
+                    <ItemForm backToManagerCB={this.closeModals.bind(this)} />
+                </SimpleMessageModal>
+        }
+        return <Wrap>{ele}</Wrap>;
     }
 
     renderWelcome(){
@@ -70,6 +90,7 @@ export default class ShopPage extends Component {
     render() {
         return (
             <Wrap>
+                {UF.isNonEmptyString(this.state.renderModal) ? this.setRenderModal(this.state.renderModal) : null}
                 {this.renderWelcome()}
             </Wrap>
         )
