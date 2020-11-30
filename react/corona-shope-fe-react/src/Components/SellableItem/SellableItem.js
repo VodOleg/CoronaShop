@@ -13,6 +13,8 @@ export default class SellableItem extends Component {
     constructor(props){
         super(props);
         this.isOwner = props.isOwner;
+        this.editCB = props.editCB;
+        this.removeCB = props.removeCB;
         this.state = {
             data: props.data
         }
@@ -23,22 +25,13 @@ export default class SellableItem extends Component {
     }
 
     Edit(Id){
-        console.log("Edit not implemented Yet")
+        this.editCB(Id);
     }
 
     deleteItem(itemId){
-        // let pwConfirmation = prompt("Re enter your password for confirmation.");
-        // BE.deleteShop(shopLink, pwConfirmation).then((res)=>{
-        //     if (res){
-        //         this.updateSeller();
-        //         alert("shop deleted");
-        //     }else{
-        //         alert("failed deleting shop.")
-        //     }
-        // });
-        console.log("not implemented Yet")
+        this.removeCB(itemId)
     }
-    
+
     renderItem(){
         let ele = 
         <Card style={{ width: '18rem', margin:"2% 2%", float:"left" }} key={this.state.data.Id+this.state.data.Name}>
@@ -50,8 +43,8 @@ export default class SellableItem extends Component {
                 </Card.Text>
                 {   this.isOwner ? 
                     <Wrap>
-                        <Button variant="light" onClick={()=>this.Edit(this.state.data.Id)}>Manage</Button>
-                        <Button variant="danger" size="sm" onClick={()=>{this.deleteItem(this.state.data.Id)}}>Delete</Button>
+                        <Button variant="light" onClick={()=>this.Edit(this.state.data)}>Manage</Button>
+                        <Button variant="danger" size="sm" onClick={()=>{this.deleteItem(this.state.data)}}>Delete</Button>
                     </Wrap>
                     :
                     <Button variant="light" onClick={()=>this.AddToCart(this.state.data.Id)}>Add</Button>

@@ -15,13 +15,13 @@ export default class ItemForm extends Component {
             form:{
                 isValid:false,
             },
-            mName:"",
-            mId:"",
-            mCategory:"",
-            mDescription:"",
-            mImgLink:"",
-            mPrice:"",
-            mUnit:""
+            mName:props.data ? props.data.Name : "" ,
+            mId: props.data ? props.data.Id : "",
+            mCategory: props.data ? props.data.Category : "",
+            mDescription: props.data ? props.data.Description : "",
+            mImgLink: props.data? props.data.ImgLink : "",
+            mPrice: props.data? props.data.Price : "",
+            mUnit: props.data? props.data.Unit :""
             
         }
 
