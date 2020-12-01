@@ -39,14 +39,19 @@ namespace CoronaShopBE.Database
             return m_pDatabase.getShop(shopId);
         }
 
-        public bool updateShop(Seller seller)
+        public bool AddNewShop(Seller seller)
         {
-            return m_pDatabase.updateShop(seller);
+            return m_pDatabase.AddNewShop(seller);
         }
 
         public bool DeleteShop(string shopID, Seller shopOwner)
         {
             return m_pDatabase.DeleteShop(shopID, shopOwner);
+        }
+
+        public bool UpdateShop(string shopID, Seller shopOwner)
+        {
+            return m_pDatabase.UpdateShop(shopID, shopOwner);
         }
     }
 }

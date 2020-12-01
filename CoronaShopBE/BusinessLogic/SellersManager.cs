@@ -52,7 +52,7 @@ namespace CoronaShopBE.BusinessLogic
 
         public bool handleNewShop(Seller seller)
         {
-            bool updated = m_pDB.updateShop(seller);
+            bool updated = m_pDB.AddNewShop(seller);
             return updated;
         }
 
@@ -73,6 +73,30 @@ namespace CoronaShopBE.BusinessLogic
 
 
             return shopDeleted;
+        }
+
+        internal bool updateShop(string shopID, Seller seller)
+        {
+            if (!isShopOwner(shopID, seller))
+            {
+                Log.Write("Attempt to modify shop with no seller credentials!!");
+                return false;
+            }
+
+            //now remove the shop
+            bool shopUpdated = m_pDB.UpdateShop(shopID, seller);
+
+
+            return shopUpdated;
+        }
+
+        private bool isShopOwner(string shopID, Seller requestedSeller)
+        {
+            Task<Seller> task_ = m_pDB.getSellerByEmail(requestedSeller.credentials);
+            task_.Wait();
+            Seller shopOwner = task_.Result;
+
+            return (shopOwner.credentials.pw == requestedSeller.credentials.pw);
         }
     }
 }

@@ -23,6 +23,7 @@ export default class ShopPage extends Component {
         }
 
     }
+    
 
     removeItem(itemData){
         console.log("removing item ",itemData);
@@ -64,18 +65,42 @@ export default class ShopPage extends Component {
         this.setState({renderModal:""})
     }
 
+    itemChanged(item){
+        // get current data
+        let found = false;
+
+        if (!UF.isDefined(this.shopData.Items)){
+            this.shopData.Items = [];
+        }
+        for (let i in this.shopData.Items){
+            if (this.shopData.Items[i].Id == item.Id){
+                this.shopData.Items[i] = {...item};
+                found = true;
+                break;
+            }
+        }
+        if (!found){
+            this.shopData.Items.push(item);
+        }
+        let updatedSeller = SSM.getUserData();
+        BE.updateShop(this.shopLink ,updatedSeller).then(()=>{
+            this.forceUpdate();
+        });
+
+    }
+
     setRenderModal(modalName){
         let ele ;
         let itemData = this.state.modalData;
         switch(modalName){
             case "newItem":
                 ele = <SimpleMessageModal onClose={this.closeModals.bind(this)} >
-                    <ItemForm backToManagerCB={this.closeModals.bind(this)} />
+                    <ItemForm backToManagerCB={this.closeModals.bind(this)} submitCB={this.itemChanged.bind(this)}/>
                 </SimpleMessageModal>
                 break;
             case "existingItem":
                 ele = <SimpleMessageModal onClose={this.closeModals.bind(this)} >
-                    <ItemForm backToManagerCB={this.closeModals.bind(this)} data={itemData}/>
+                    <ItemForm backToManagerCB={this.closeModals.bind(this)} data={itemData} submitCB={this.itemChanged.bind(this)}/>
                 </SimpleMessageModal>
                 break;
         }
