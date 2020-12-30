@@ -50,6 +50,20 @@ export default class ItemForm extends Component {
           </Form.Group>
         </Form.Row>
         <Form.Row>
+        <Form.Group controlId="validationCustom02">
+            <Form.Label>Id</Form.Label>
+            <Form.Control
+              required
+              type="number"
+              placeholder=""
+              name="mId"
+              value = {this.state.mId}
+              onChange = {this.handleInputChange.bind(this)}
+            />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
           <Form.Group controlId="validationCustom02">
             <Form.Label>Category</Form.Label>
             <Form.Control
@@ -146,7 +160,7 @@ export default class ItemForm extends Component {
         event.preventDefault();
         event.stopPropagation();
         if (form.checkValidity() === false) {
-            console.log("Invalid form , handle")
+            console.log("Invalid form , handle "+ form.checkValidity())
         }else{
             this.setValidated(true);
             let items = {
