@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using System.Net.Http.Headers;
+using System.Threading;
 
 namespace CoronaShopBE.Database.restdb_implementation
 {
@@ -119,7 +120,7 @@ namespace CoronaShopBE.Database.restdb_implementation
             return received_json;
         }
 
-        public bool updateShop(Seller seller)
+        public bool AddNewShop(Seller seller)
         {
             var task = getSellerByEmail(seller.credentials);
             task.Wait();
@@ -153,18 +154,19 @@ namespace CoronaShopBE.Database.restdb_implementation
 //         https://<dbname>.restdb.io/rest/blog/588f439418f328ec5e024277
 //          { "$pull": { "comments": "This is a comment to a blog post."} }
             string q = "sellers/"+seller._id;
-            Shop shopToDelete = null;
-            for (int i =0; i< seller.shops.Count; i++)
-            {
-                if (seller.shops[i].platformLink == shopID)
-                {
-                    shopToDelete = seller.shops[i];
-                    break;
-                }
-            }
+            Shop shopToDelete = getShop(shopID);
+            //for (int i =0; i< seller.shops.Count; i++)
+            //{
+            //    if (seller.shops[i].platformLink == shopID)
+            //    {
+            //        shopToDelete = seller.shops[i];
+            //        break;
+            //    }
+            //}
 
             if(shopToDelete == null)
             {
+                Log.Write("Shop to delete is null.");
                 return false;
             }
             
@@ -175,6 +177,58 @@ namespace CoronaShopBE.Database.restdb_implementation
             return true;
         }
 
+        private Shop extractShop(Seller seller, string shopID)
+        {
+            Shop shopToModify = null;
+            for (int i = 0; i < seller.shops.Count; i++)
+            {
+                if (seller.shops[i].platformLink == shopID)
+                {
+                    shopToModify = seller.shops[i];
+                    break;
+                }
+            }
+            return shopToModify;
+        }
 
+
+        private bool UpdateShop(Shop updatedShop, Seller shopOwner)
+        {
+            //update has only the old, shopowner has only the new ?
+            // This database not supporting updating objects nested in nested arrays
+            // therefore we replace the shop
+            string query = "sellers/" + shopOwner._id;
+            bool shopDeleted = DeleteShop(updatedShop.platformLink, shopOwner);
+            
+            if (shopDeleted)
+            {
+                string content_core = JsonConvert.SerializeObject(updatedShop);
+
+                string content = "{\"$push\":{\"Shops\":" + content_core + "}}";
+                var putTask = sendPut(query, content);
+                var res = putTask.Result;
+                Log.Write($"Successfully updated shop");
+
+                return true;
+            }
+            Log.Write($"Failed updating shop, failed removing existing document.");
+
+            return false;
+        }
+
+        public bool UpdateShop(string shopID, Seller shopOwner)
+        {
+            // assuming this is the correct seller
+            // Business logic should validate the seller
+            Shop shopToModify = extractShop(shopOwner, shopID);
+
+            if (shopToModify == null)
+            {
+                // shop not exist
+                return false;
+            }
+
+            return UpdateShop(shopToModify, shopOwner);
+        }
     }
 }

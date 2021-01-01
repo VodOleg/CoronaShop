@@ -17,7 +17,17 @@ namespace CoronaShopBE.Database.MongoDBImplementation
             db = client.GetDatabase(GlobalConfig.databaseURL);
         }
 
+        public bool addItemToShop(string shopID, Seller shopOwner, Item newItem)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task AddNewSeller(Seller seller)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddNewShop(Seller seller)
         {
             throw new NotImplementedException();
         }
@@ -32,6 +42,11 @@ namespace CoronaShopBE.Database.MongoDBImplementation
             throw new NotImplementedException();
         }
 
+        public bool editExistingItem(string shopID, Seller shopOwner, Item edittedItem)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Seller> getSellerByEmail(Credentials credentials)
         {
             throw new NotImplementedException();
@@ -42,7 +57,17 @@ namespace CoronaShopBE.Database.MongoDBImplementation
             throw new NotImplementedException();
         }
 
+        public bool removeItemFromShop(string shopID, Seller shopOwner, Item itemToRemove)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool updateShop(Seller seller)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateShop(string shopID, Seller shopOwner)
         {
             throw new NotImplementedException();
         }

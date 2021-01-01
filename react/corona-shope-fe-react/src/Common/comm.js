@@ -76,6 +76,13 @@ class BE_Comm{
             return shopis != null;
         }
     }
+
+    async updateShop(shopLink, Seller){
+        if(SSM.developmentMode)
+            return true;
+        let res = await this.send_request(`Seller/UpdateShop/${shopLink}`, Seller);
+        return this.processResponse(res);
+    }
     
     async addNewShop(details){
         let body = {

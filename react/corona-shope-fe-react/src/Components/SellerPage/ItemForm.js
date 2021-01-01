@@ -11,6 +11,7 @@ export default class ItemForm extends Component {
     constructor(props){
         super(props);
         this.backToManagerCB = props.backToManagerCB;
+        this.submitCB = props.submitCB;
         this.state = {
             form:{
                 isValid:false,
@@ -43,6 +44,20 @@ export default class ItemForm extends Component {
               placeholder="myItem"
               name="mName"
               value = {this.state.mName}
+              onChange = {this.handleInputChange.bind(this)}
+            />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+        <Form.Group controlId="validationCustom02">
+            <Form.Label>Id</Form.Label>
+            <Form.Control
+              required
+              type="number"
+              placeholder=""
+              name="mId"
+              value = {this.state.mId}
               onChange = {this.handleInputChange.bind(this)}
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -101,7 +116,7 @@ export default class ItemForm extends Component {
             <Form.Label>Price</Form.Label>
             <Form.Control
               required
-              type="text"
+              type="number"
               placeholder=""
               name="mPrice"
               value = {this.state.mPrice}
@@ -145,25 +160,20 @@ export default class ItemForm extends Component {
         event.preventDefault();
         event.stopPropagation();
         if (form.checkValidity() === false) {
-            console.log("Invalid form , handle")
+            console.log("Invalid form , handle "+ form.checkValidity())
         }else{
             this.setValidated(true);
-            // let shopDetails = {
-            //     Name: this.state.mName,
-            //     Description: this.state.mDescription,
-            //     PlatformLink: this.state.mLink,
-            //     Location: this.state.mLocation,
-            //     ShopConfiguration:{
-            //         Hours: this.state.mHours,
-            //         TakeAway: this.state.mTakeaway,
-            //         Delivery: this.state.mDelivery
-            //     }
-            // }
-            // let isAdded = BE.addNewShop(shopDetails);
-            // if (isAdded){
-            //     this.backToManagerCB();
-            // }
-            console.log("TODO: add item to BE + assign ID logic")
+            let items = {
+                Name: this.state.mName,
+                Id : this.state.mId,
+                Category: this.state.mCategory,
+                Description: this.state.mDescription,
+                ImgLink: this.state.mImgLink,
+                Price: this.state.mPrice,
+                Unit: this.state.mUnit
+            }
+            this.submitCB(items);
+            this.backToManagerCB();
         }
 
     };

@@ -43,7 +43,6 @@ class SimpleStateManager{
     }
 
     setIsLogged(user){
-        console.log(user);
         this.m_bIsLogged = user.authenticated;
         if (user.authenticated)
             this.updateSeller(user.data);
@@ -72,7 +71,6 @@ class SimpleStateManager{
     }
 
     getShop(link){
-        console.log(this.sellerData);
         var result = this.sellerData.Shops.find(obj => {
             return obj.PlatformLink === link
           })
