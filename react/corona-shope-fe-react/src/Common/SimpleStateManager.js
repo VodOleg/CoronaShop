@@ -10,7 +10,9 @@ class SimpleStateManager{
         this.email = "";
         this.developmentMode = (window.location.port === '3000')
         this.sellerData = {};
-
+        this.buyerData = {
+            shopData:null
+        };
         if (this.developmentMode){
             this.email = testShop.Credentials.email;
             this.sellerData = testShop;
@@ -83,6 +85,14 @@ class SimpleStateManager{
 
     isLogged(){
         return this.m_bIsLogged;
+    }
+
+    setBuyerShop(shopData){
+        this.buyerData.shopData=shopData;
+    }
+
+    getBuyerData(){
+        return this.buyerData;
     }
 }
 

@@ -3,7 +3,7 @@ import Wrap from '../../Common/Wrap';
 import BE from '../../Common/comm';
 import {Form, Button} from 'react-bootstrap';
 import './LandingPage.css';
-import {UtilityFunctions as UF} from '../../Common/Util';
+import {UtilityFunctions as UF, UtilityFunctions} from '../../Common/Util';
 import InputWithSubmit from '../../UI/InputWithSubmit';
 import SimpleStateManager from '../../Common/SimpleStateManager';
 import SellerPage from './../SellerPage/SellerPage';
@@ -13,9 +13,10 @@ import { Redirect } from 'react-router-dom';
 export default class LandingPage extends Component {
     constructor(props){
         super(props);
+        this.state = {
+            redirectAnchor : <div></div>
+        }
         
-        //this.api = BE;
-        //this.SSM = SimpleStateManager;
     }
 
     onSubmitCustom(e){
@@ -32,10 +33,48 @@ export default class LandingPage extends Component {
         return ele;
     }
     
+    searchShop(item){
+        BE.getShop(item.value).then(shop=>{
+            if(UtilityFunctions.isDefined(shop)){
+                // render the shop
+                SSM.setBuyerShop(shop);
+                this.setState({redirectAnchor:<Redirect to={{ pathname:'/BuyerPage'}} />});
+            }
+            else{
+                alert("Shop not exist :(");
+            }
+        })
+    }
+
+
+    renderShopSearch(){
+        let ele = <Wrap>
+            <div className="searchShopDiv">
+                <div style={{width:"60%", padding:"5%",margin:"auto", textAlign:"center", border:"1px dotted"}} >
+                    You can look for shop by typing in the shop link for the merchant shop!
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div style={{marginLeft:"20px"}}>
+                        <InputWithSubmit title="Link" placeholder="shop link" applyCB={this.searchShop.bind(this)} />
+                    </div>
+                        {this.state.redirectAnchor}
+                </div>
+            </div>
+        </Wrap>;
+        return ele;
+    }
     
 
     render() {
         let rendering = <Wrap>
+            <div className="headerWelcome" style={{textAlign:"center"}}>
+                <h3>Welcome to Corona Shops</h3>
+            </div>
+            
+            
+            <br />
+            {this.renderShopSearch()}
+            <br />
+
             {!SimpleStateManager.isLogged() ?
             this.login_square() :
             this.renderSellerPage()
@@ -107,10 +146,9 @@ class LoginForm extends Component{
     renderMain(){
         let ele = <Wrap>
             <div className="loginForm">
-                <div className="headerWelcome">
-                    <h3>Welcome to Corona Shops</h3>
-                </div>
+                
                 <div >
+                    Merchant ? <br />
                     Please <span type="button" onClick={()=>{this.setState({renderingLoginForm:true})}} className={this.state.renderingLoginForm ? `custom-href-link` : ``}>login</span>
                     &nbsp;or <span type="button" onClick={()=>{this.setState({renderingLoginForm:false})}} className={!this.state.renderingLoginForm ? `custom-href-link` : ``}>register.</span>
                     {this.renderLoginDiv(!this.state.renderingLoginForm)}
@@ -160,6 +198,7 @@ class LoginForm extends Component{
     redirectToSellerPage(){
         return <Redirect to={{ pathname: '/SellerPage' }} />;
     }
+
 
     render(){
         let rendering = <Wrap>

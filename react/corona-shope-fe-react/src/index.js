@@ -8,8 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import LandingPage from './Components/LandingPage/LandingPage';
 import SellerPage from './Components/SellerPage/SellerPage';
 import ProtectedRoute from './Common/ProtectedRoute';
-//import store from './StateManager/store';
-import ShopManager from './Components/SellerPage/ShopManager';
+import BuyerPage from './Components/BuyerPage/BuyerPage';
 
 window.onbeforeunload = function(e){
   e.preventDefault();
@@ -20,6 +19,7 @@ ReactDOM.render(
 <BrowserRouter forceRefresh={false} >
                 <Switch>
                     <ProtectedRoute  path='/SellerPage' component={SellerPage} />
+                    <Route path="/BuyerPage" component={BuyerPage} />
                     <Route  path={"/"}  component={LandingPage} />
                 </Switch>
 <App />
