@@ -43,10 +43,10 @@ export default class BuyerPage extends Component {
             <Wrap>
                 <Container fluid>
                     <Row>
-                        <Col sm={8}>
+                        <Col sm={10}>
                             {this.renderItems()}
                         </Col>
-                        <Col sm={4} style={{position:"fixed", marginLeft:"80%"}}>
+                        <Col sm={2} style={{position:"fixed", marginLeft:"80%"}}>
                             <Cart itemsArr={this.shopData.shopData.Items} inCartList={this.state.itemsInCart} />
                         </Col>
                     </Row>
