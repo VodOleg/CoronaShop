@@ -15,13 +15,14 @@ export default class SellableItem extends Component {
         this.isOwner = props.isOwner;
         this.editCB = props.editCB;
         this.removeCB = props.removeCB;
+        this.addCB = props.addCB;
         this.state = {
             data: props.data
         }
     }
 
     AddToCart(Id){
-        console.log("AddToCart not implemented yet")
+        this.addCB(Id);
     }
 
     Edit(Id){
@@ -47,7 +48,7 @@ export default class SellableItem extends Component {
                         <Button variant="danger" size="sm" onClick={()=>{this.deleteItem(this.state.data)}}>Delete</Button>
                     </Wrap>
                     :
-                    <Button variant="light" onClick={()=>this.AddToCart(this.state.data.Id)}>Add</Button>
+                    <Button variant="light" onClick={()=>this.AddToCart(this.state.data)}>Add</Button>
                 }
             </Card.Body>
         </Card>
