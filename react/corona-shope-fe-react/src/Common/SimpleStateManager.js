@@ -11,7 +11,8 @@ class SimpleStateManager{
         this.developmentMode = (window.location.port === '3000')
         this.sellerData = {};
         this.buyerData = {
-            shopData:null
+            shopData:null,
+            m_arrBuyerCart: []
         };
         if (this.developmentMode){
             this.email = testShop.Credentials.email;
@@ -48,6 +49,14 @@ class SimpleStateManager{
         this.m_bIsLogged = user.authenticated;
         if (user.authenticated)
             this.updateSeller(user.data);
+    }
+
+    addBuyerItem(item){
+        this.buyerData.m_arrBuyerCart.push(item);
+    }
+
+    getBuyerCart(){
+        return this.buyerData.m_arrBuyerCart;
     }
 
     updateSeller(data){
