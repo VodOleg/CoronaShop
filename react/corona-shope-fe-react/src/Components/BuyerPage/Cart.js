@@ -9,11 +9,24 @@ export default class Cart extends Component {
 
     constructor(props){
         super(props);
-        
+        this.state = {
+            itemsInCart:0
+        }
     }
     componentDidUpdate(props){
 
     }
+
+    removeItemFromCart(item){
+        
+        let itemIndex = parseInt(item.target.id.substring(item.target.id.lastIndexOf("_")+1));
+        
+        SSM.removeBuyerItem(itemIndex);
+        
+        this.setState({itemsInCart:this.state.itemsInCart-1})
+        
+    }
+
     renderItemList(){
         let items = [];
         let itemsInCart = {...SSM.getBuyerCart()};
@@ -26,18 +39,10 @@ export default class Cart extends Component {
                     <td>{i}</td>
                     <td>{itemsInCart[i].Name}</td>
                     <td>{itemsInCart[i].Price}</td>
+                    <td><Button variant={'danger'} size={'sm'} id={'item_in_cart_'+i} onClick={this.removeItemFromCart.bind(this)} >X</Button>  </td>
                 </tr>
-                {/* <span>{itemsInCart[i].Name} {itemsInCart[i].Price}</span>
-                <br /> */}
             </Wrap> )
         }
-        items.push(
-            <tr>
-                    <td>Total</td>
-                    <td>{itemsInCart.length}</td>
-                    <td>{totalCost.toFixed(2)}</td>
-                </tr>
-        )
         let cartTable = 
         <Table striped bordered hover size="sm">
             <thead>
@@ -53,19 +58,24 @@ export default class Cart extends Component {
             </Table>;
         let ele = <Wrap>
             {cartTable}
+            <span style={{border:"1px dotted", textAlign:'center', fontWeight:'bold'}}># {itemsInCart.length} Total:{totalCost.toFixed(2)}</span>
         </Wrap>
         return ele;
     }
 
+    CheckOut(cart){
+        console.log(SSM.getBuyerCart());
+    }
+
     renderControls(){
-        return <Button>Check Out</Button>
+        return <div style={{margin:'auto'}}><Button onClick={this.CheckOut.bind(this)}>Check Out</Button></div>
     }
 
     render() {
-        console.log("rendering Cart!");
         return (
             <Wrap>
                 <div className="cartContainer">
+                    <span style={{display:"inline-block"}}><span>Your Items </span> <span className={"gg-shopping-cart"}></span></span>
                     <div className="cartInnerContainer">
                         <div className="itemList">
                             {this.renderItemList()}

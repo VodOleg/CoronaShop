@@ -55,6 +55,10 @@ class SimpleStateManager{
         this.buyerData.m_arrBuyerCart.push(item);
     }
 
+    removeBuyerItem(item_index){
+        this.buyerData.m_arrBuyerCart.splice(item_index,1);
+    }
+
     getBuyerCart(){
         return this.buyerData.m_arrBuyerCart;
     }

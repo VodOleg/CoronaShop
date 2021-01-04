@@ -20,19 +20,18 @@ export default class BuyerPage extends Component {
     }
 
     addToCart(item){
-        // console.log(item);
         SSM.addBuyerItem(item);
         
-        // newCartList.push(item);
+        
         this.setState({itemsInCart:this.state.itemsInCart+1})
     }
+
 
     renderItems(){
         let itemCards = [];
         let items = this.shopData.shopData.Items;
         console.log(items);
         for (let i in items){
-            console.log(items[i].Name);
             itemCards.push( <SellableItem key={"shop_"+this.shopLink+"_itemID_"+items[i].Id} isOwner={false} data={items[i]} addCB={this.addToCart.bind(this)} />);
         }
         return <Wrap> {itemCards} </Wrap>;
@@ -50,17 +49,6 @@ export default class BuyerPage extends Component {
                             <Cart itemsArr={this.shopData.shopData.Items} inCartList={this.state.itemsInCart} />
                         </Col>
                     </Row>
-
-                    {/* <Row>
-                        <Col>
-                welcome traveler! <br/>
-                        </Col>
-                        <Col style={{position:"fixed"}}>
-                        </Col>
-                    </Row>
-                    <Row>
-
-                    </Row> */}
                 </Container>
             </Wrap>
         )
