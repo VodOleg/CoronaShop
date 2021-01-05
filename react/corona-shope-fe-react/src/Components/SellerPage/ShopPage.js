@@ -156,8 +156,6 @@ export default class ShopPage extends Component {
     }
 
     render() {
-        console.log("rendering shop data:");
-        console.log(JSON.stringify(this.shopData));
         return (
             <Wrap>
                 {UF.isNonEmptyString(this.state.renderModal) ? this.setRenderModal(this.state.renderModal) : null}

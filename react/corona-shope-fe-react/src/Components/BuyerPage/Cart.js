@@ -9,8 +9,10 @@ export default class Cart extends Component {
 
     constructor(props){
         super(props);
+        this.CheckOutCB = props.CheckOutCB;
         this.state = {
-            itemsInCart:0
+            itemsInCart:0,
+            orderConfirmed: false
         }
     }
     componentDidUpdate(props){
@@ -64,25 +66,32 @@ export default class Cart extends Component {
     }
 
     CheckOut(cart){
-        console.log(SSM.getBuyerCart());
+        //render checkout form
+        this.CheckOutCB(cart);
     }
 
     renderControls(){
         return <div style={{margin:'auto'}}><Button onClick={this.CheckOut.bind(this)}>Check Out</Button></div>
     }
-
+    
     render() {
         return (
             <Wrap>
                 <div className="cartContainer">
-                    <span style={{display:"inline-block"}}><span>Your Items </span> <span className={"gg-shopping-cart"}></span></span>
                     <div className="cartInnerContainer">
-                        <div className="itemList">
-                            {this.renderItemList()}
-                        </div>
-                        <div className="cartControls">
-                            {this.renderControls()}
-                        </div>
+                        {this.state.orderConfirmed ? <span>Order Confirmed!</span>: 
+                        <Wrap>
+                            <div >
+                                <span><span>Your Cart </span> <span className={"gg-shopping-cart"}></span></span>
+                            </div>
+                            <div className="itemList">
+                                {this.renderItemList()}
+                            </div>
+                            <div className="cartControls">
+                                {this.renderControls()}
+                            </div>
+                        </Wrap>
+                        }
                     </div>
                 </div>
             </Wrap>
