@@ -15,5 +15,9 @@ namespace CoronaShopBE.CommonUtils
             return ret;
         }
 
+        public static string generateID()
+        {
+            return Guid.NewGuid().ToString("N");
+        }
     }
 }

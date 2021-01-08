@@ -81,6 +81,17 @@ namespace CoronaShopBE.Database.restdb_implementation
             return parseSellerFromString(received_json);
         }
 
+        public Seller getSellerFromShop(string shopId)
+        {
+            Shop shop = null;
+            string jsonedShop = getShopByLink(shopId);
+            Log.Write($"received shop: {jsonedShop}");
+
+            //we receive the whole seller object when querying this db
+            Seller seller = parseSellerFromString(jsonedShop);
+            return seller;
+        }
+
         public Shop getShop(string shopId)
         {
             Shop shop = null;
@@ -155,14 +166,6 @@ namespace CoronaShopBE.Database.restdb_implementation
 //          { "$pull": { "comments": "This is a comment to a blog post."} }
             string q = "sellers/"+seller._id;
             Shop shopToDelete = getShop(shopID);
-            //for (int i =0; i< seller.shops.Count; i++)
-            //{
-            //    if (seller.shops[i].platformLink == shopID)
-            //    {
-            //        shopToDelete = seller.shops[i];
-            //        break;
-            //    }
-            //}
 
             if(shopToDelete == null)
             {
@@ -229,6 +232,32 @@ namespace CoronaShopBE.Database.restdb_implementation
             }
 
             return UpdateShop(shopToModify, shopOwner);
+        }
+
+        public bool addOrderToSeller(Seller shopOwner, Order order)
+        {
+            string query = "sellers/" + shopOwner._id;
+            //bool shopDeleted = DeleteShop(updatedShop.platformLink, shopOwner);
+
+            string content_core = JsonConvert.SerializeObject(order);
+
+            string content = "{\"$push\":{\"Orders\":" + content_core + "}}";
+            var putTask = sendPut(query, content);
+            var res = putTask.Result;
+            Log.Write($"Successfully updated order");
+
+            return true;
+        }
+
+        public bool removeOrderFromSeller(Seller shopOwner, Order order)
+        {
+            string q = "sellers/" + shopOwner._id;
+
+            string content_core = JsonConvert.SerializeObject(order);
+            string content = "{\"$pull\":{\"Shops\":" + content_core + "}}";
+            var putTask = sendPut(q, content);
+            var res = putTask.Result;
+            return true;
         }
     }
 }

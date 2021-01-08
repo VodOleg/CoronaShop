@@ -7,6 +7,7 @@ import Cart from './Cart';
 import {InputGroup, Button, FormControl, Container, Row, Col} from 'react-bootstrap';
 import CheckOutForm from './CheckOutForm';
 import SimpleMessageModal from '../SimpleMessageModal/SimpleMessageModal';
+import BE from './../../Common/comm';
 
 
 
@@ -34,10 +35,15 @@ export default class BuyerPage extends Component {
     }
 
     confirmCheckOut(itemForm){
-        console.log(itemForm);
-        console.log(SSM.getBuyerCart())
-        //send api to backend to deal with the request
-        alert("order confirmed");
+        BE.makeOrder(this.shopData.shopData.PlatformLink, itemForm, SSM.getBuyerCart()).then(res=>{
+            if(res){
+                alert("order confirmed");
+                SSM.clearBuyerCart();
+                this.setState({itemsInCart:0})
+            }
+            else
+                alert("something went wrong");
+        })
     }
     
     showCheckoutModal(){

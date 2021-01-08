@@ -71,5 +71,20 @@ namespace CoronaShopBE.Database.MongoDBImplementation
         {
             throw new NotImplementedException();
         }
+
+        public Seller getSellerFromShop(string shopId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool addOrderToSeller(Seller shopOwner, Order order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool removeOrderFromSeller(Seller shopOwner, Order order)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

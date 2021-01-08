@@ -1,4 +1,5 @@
-﻿using CoronaShopBE.Database;
+﻿using CoronaShopBE.CommonUtils;
+using CoronaShopBE.Database;
 using CoronaShopBE.Database.restdb_implementation;
 using CoronaShopBE.Dto;
 using Microsoft.Extensions.Logging;
@@ -37,6 +38,38 @@ namespace CoronaShopBE.BusinessLogic
             // user not exist can proceed creating new with that mail.
             Seller seller = new Seller(credentials);
             m_pDB.AddNewSeller(seller);
+            return true;
+        }
+
+        public bool addNewOrder(string shopID, Order order)
+        {
+            string orderID = Utils.generateID();
+            //get the seller
+            Seller shopOwner = m_pDB.getSellerFromShop(shopID);
+
+            //verify order ID uniqueness 
+            List<string> allOrders = new List<string>();
+            if ( shopOwner.orders != null)
+            {
+                foreach (var order_ in shopOwner.orders)
+                {
+                    allOrders.Add(order_.orderID);
+                }
+            }
+            
+            //check if he already have order with this id
+            while (allOrders.Contains(orderID))
+            {
+                orderID = Utils.generateID();
+            }
+
+            //update the order
+            order.orderID = orderID;
+            order.shopID = shopID;
+
+            //submit new order to seller
+            bool ret = m_pDB.addOrderToSeller(shopOwner, order);
+
             return true;
         }
 

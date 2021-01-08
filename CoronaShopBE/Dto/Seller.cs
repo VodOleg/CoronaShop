@@ -12,6 +12,7 @@ namespace CoronaShopBE.Dto
         {
             credentials = new Credentials(user, pw);
             shops = new List<Shop>();
+            orders = new List<Order>();
         }
 
         public Seller(Credentials credentials_)
@@ -32,6 +33,9 @@ namespace CoronaShopBE.Dto
 
         [JsonProperty("Shops")]
         public List<Shop> shops { get; set; }
+
+        [JsonProperty("Orders")]
+        public List<Order> orders { get; set; }
 
         public void Dispose()
         {

@@ -59,6 +59,10 @@ class SimpleStateManager{
         this.buyerData.m_arrBuyerCart.splice(item_index,1);
     }
 
+    clearBuyerCart(){
+        this.buyerData.m_arrBuyerCart = [];
+    }
+
     getBuyerCart(){
         return this.buyerData.m_arrBuyerCart;
     }

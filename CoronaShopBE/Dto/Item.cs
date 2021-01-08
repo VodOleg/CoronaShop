@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CoronaShopBE.Dto
 {
-    public partial class Item
+    public class Item
     {
         [JsonProperty("Name")]
         public string name { get; set; }
@@ -30,26 +30,5 @@ namespace CoronaShopBE.Dto
         public string unit { get; set; }
     }
 
-    public class SellerItem
-    {
-        [JsonProperty("Item")]
-        public Item item { get; set; }
 
-        [JsonProperty("Quantity")]
-        public int quantity { get; set; }
-
-    }
-
-    public class BuyerItem
-    {
-        [JsonProperty("Item")]
-        public Item item { get; set; }
-
-        [JsonProperty("Quantity")]
-        public int quantity { get; set; }
-
-        [JsonProperty("Comment")]
-        public string comment { get; set; }
-
-    }
 }

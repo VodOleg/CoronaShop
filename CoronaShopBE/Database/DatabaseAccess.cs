@@ -53,5 +53,20 @@ namespace CoronaShopBE.Database
         {
             return m_pDatabase.UpdateShop(shopID, shopOwner);
         }
+
+        public Seller getSellerFromShop(string shopId)
+        {
+            return m_pDatabase.getSellerFromShop(shopId);
+        }
+
+        public bool addOrderToSeller(Seller shopOwner, Order order)
+        {
+            return m_pDatabase.addOrderToSeller(shopOwner, order);
+        }
+
+        public bool removeOrderFromSeller(Seller shopOwner, Order order)
+        {
+            return removeOrderFromSeller(shopOwner, order);
+        }
     }
 }

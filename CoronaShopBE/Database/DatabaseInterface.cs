@@ -19,9 +19,13 @@ namespace CoronaShopBE.Database
         Task<Seller> getSellerByEmail(Credentials credentials);
 
         Shop getShop(string shopId);
+        Seller getSellerFromShop(string shopId);
+
         bool AddNewShop(Seller seller);
         bool DeleteShop(string shopID, Seller shopOwner);
 
         bool UpdateShop(string shopID, Seller shopOwner);
+        bool addOrderToSeller(Seller shopOwner, Order order);
+        bool removeOrderFromSeller(Seller shopOwner, Order order);
     }
 }
