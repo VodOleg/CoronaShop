@@ -66,7 +66,8 @@ namespace CoronaShopBE.Database
 
         public bool removeOrderFromSeller(Seller shopOwner, Order order)
         {
-            return removeOrderFromSeller(shopOwner, order);
+            return m_pDatabase.removeOrderFromSeller(shopOwner, order);
         }
+
     }
 }

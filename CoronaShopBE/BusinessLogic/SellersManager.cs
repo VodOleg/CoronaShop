@@ -66,6 +66,7 @@ namespace CoronaShopBE.BusinessLogic
             //update the order
             order.orderID = orderID;
             order.shopID = shopID;
+            order.orderTimestamp = DateTime.Now;
 
             //submit new order to seller
             bool ret = m_pDB.addOrderToSeller(shopOwner, order);
@@ -130,6 +131,27 @@ namespace CoronaShopBE.BusinessLogic
             Seller shopOwner = task_.Result;
 
             return (shopOwner.credentials.pw == requestedSeller.credentials.pw);
+        }
+
+        public bool RemoveOrder(string shopID, string orderID, Credentials credentials)
+        {
+            bool ret = true;
+            using (Seller validation = new Seller(credentials))
+            {
+                //validate credentials
+                if (!isShopOwner(shopID, validation))
+                {
+                    Log.Write("Attempt to modify shop with no seller credentials!!");
+                    return false;
+                }
+            }
+            Seller shopOwner = m_pDB.getSellerByEmail(credentials).Result;
+
+            //extract the order from Seller
+            Order order = shopOwner.orders.Find(order_ => order_.orderID.Equals(orderID));
+            ret = m_pDB.removeOrderFromSeller(shopOwner, order);
+
+            return ret;
         }
     }
 }

@@ -123,6 +123,15 @@ class BE_Comm{
         return UF.isDefined(res) && UF.isDefined(res.data.response) && res.data.response==="True";
     }
 
+    async removeOrder(orderID, shopID){
+        let body = {
+            email:SSM.getUserEmail(),
+            pw:SSM.getUserData().Credentials.pw
+        }
+        let res = await this.send_request(`Seller/RemoveOrder/${shopID}/${orderID}`, body);
+        return this.processResponse(res);
+    }
+    
     async getShop(shopID){
         
         let res = await this.send_request(`Public/${shopID}`, null, 'get');

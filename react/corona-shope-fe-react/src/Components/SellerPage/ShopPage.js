@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Button, Form, Col, InputGroup, Modal } from 'react-bootstrap';
+import { Card, Button, Form, Col, InputGroup, Modal, Table } from 'react-bootstrap';
 import {UtilityFunctions as UF} from '../../Common/Util';
 import SSM from './../../Common/SimpleStateManager';
 import Wrap from './../../Common/Wrap';
@@ -9,6 +9,7 @@ import BE from './../../Common/comm';
 import ShopCreationForm from './ShopCreationForm';
 import SellableItem from './../SellableItem/SellableItem';
 import ItemForm from './ItemForm';
+import OrderDetails from './OrderDetails';
 
 export default class ShopPage extends Component {
     constructor(props){
@@ -26,7 +27,6 @@ export default class ShopPage extends Component {
     
 
     removeItem(itemData){
-        console.log("removing item ",itemData);
         for (let i in this.shopData.Items){
             if (this.shopData.Items[i].Id == itemData.Id){
                 this.shopData.Items.splice(i, 1);
@@ -47,9 +47,7 @@ export default class ShopPage extends Component {
     renderItems(){
         let itemCards = [];
         let items = SSM.getShop(this.shopLink).Items;//this.shopData.Items; 
-        console.log("printing item names in shop from ssm:");
         for (let i in items){
-            console.log(items[i].Name);
             itemCards.push( <SellableItem key={"shop_"+this.shopLink+"_itemID_"+items[i].Id} isOwner={true} data={items[i]} editCB={this.editItem.bind(this)} removeCB={this.removeItem.bind(this)} />);
         }
         itemCards.push(this.renderAddItemAction());
@@ -82,7 +80,6 @@ export default class ShopPage extends Component {
         // get current data
         let found = false;
         if (!UF.isDefined(this.shopData.Items)){
-            console.log("this shop data not defined, resetting");
             this.shopData.Items = [];
         }
         for (let i in this.shopData.Items){
@@ -93,7 +90,6 @@ export default class ShopPage extends Component {
             }
         }
         if (!found){
-            console.log("item id not found, adding new item");
             this.shopData.Items.push(item);
         }
         let updatedSeller = SSM.getUserData();
@@ -118,13 +114,17 @@ export default class ShopPage extends Component {
                     <ItemForm backToManagerCB={this.closeModals.bind(this)} data={itemData} submitCB={this.itemChanged.bind(this)}/>
                 </SimpleMessageModal>
                 break;
+            case "order":
+                ele = <SimpleMessageModal onClose={this.closeModals.bind(this)} >
+                    <OrderDetails orderID={itemData} closeCB={this.closeModals.bind(this)}></OrderDetails>
+                </SimpleMessageModal>
+                break;
         }
         return <Wrap>{ele}</Wrap>;
     }
 
     updateShopView(preventRefresh = false){
         BE.tryLogIn(SSM.getUserEmail(), SSM.getUserData().Credentials.pw).then((user)=>{
-            console.log(user);
             if (user.hasOwnProperty('data'))
                 SSM.updateSeller(user.data);
             else
@@ -138,6 +138,11 @@ export default class ShopPage extends Component {
         let ele = <Wrap>
             <div className="sellerheader">
                 <h2>Let's Work on Your Shop!</h2>
+            </div>
+            
+            <div className="bodyDiv">
+                <h6>Ongoing orders:</h6>
+                {this.renderActiveOrders()}
             </div>
             <div className="bodyDiv">
                 <div className="bodyControls">
@@ -154,6 +159,65 @@ export default class ShopPage extends Component {
         </Wrap>
         return ele;
     }
+    
+    removeItemFromList(item){
+        let orderID = item.target.id.substring(item.target.id.lastIndexOf("_")+1);
+        
+        BE.removeOrder(orderID, this.shopLink).then(res=>{
+            this.updateShopView();
+        })
+    }
+
+    showOrderInModal(item){
+        let orderID = item.target.id.substring(item.target.id.lastIndexOf("_")+1);
+        this.popModal("order", orderID);
+    }
+
+    renderOrders(){
+        let shopOrders = SSM.getShopOrders(this.shopLink);
+        let items = [];
+        for (let i in shopOrders){
+            items.push(
+                    <tr key={"orderID_"+shopOrders[i].OrderID}>
+                        <td>{i}</td>
+                        <td>{shopOrders[i].OrderDetails.Name}</td>
+                        <td>{shopOrders[i].OrderDetails.mAddress}</td>
+                        <td>{shopOrders[i].OrderDetails.mPhoneNumber}</td>
+                        <td>{shopOrders[i].OrderTimestamp}</td>
+                        <td >
+                            <Button variant={'primary'} size={'sm'} id={'showItemsButton_'+shopOrders[i].OrderID} onClick={this.showOrderInModal.bind(this)}> Open </Button>
+                            <span>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     </span>
+                            <Button variant={'danger'} size={'sm'} id={'order_in_list_'+shopOrders[i].OrderID} onClick={this.removeItemFromList.bind(this)} >X</Button>
+                        </td>
+                    </tr>)
+        }
+        return items;
+    }
+
+    renderActiveOrders(){
+        
+        let ele = 
+        <Wrap>
+            <Table striped bordered hover size="sm">
+            <thead>
+                <tr>
+                <th>#</th>
+                <th>Client</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Order Time</th>
+                <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {this.renderOrders()}
+            </tbody>
+            </Table>
+        </Wrap>
+
+        return ele;
+    }
+
 
     render() {
         return (

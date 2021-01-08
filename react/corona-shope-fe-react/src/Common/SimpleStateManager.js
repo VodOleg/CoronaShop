@@ -1,4 +1,5 @@
 import testShop from './dummyShopForTests';
+import { UtilityFunctions } from './Util';
 /**
  * @description this class is a singleton class that manages the state for an on
  *              going session, it will store information like if session is logged in and other stuff
@@ -93,6 +94,20 @@ class SimpleStateManager{
         var result = this.sellerData.Shops.find(obj => {
             return obj.PlatformLink === link
           })
+        return result;
+    }
+    getShopOrders(link){
+        var result = [];
+        console.log(this.sellerData.Orders);
+        if(UtilityFunctions.isDefined(this.sellerData.Orders)){
+            result = this.sellerData.Orders.filter(obj => obj.shopID===link );
+        }
+        return result;
+    }
+    getShopOrder(orderID){
+        var result = this.sellerData.Orders.find(obj =>{
+            return obj.OrderID === orderID;
+        })
         return result;
     }
 

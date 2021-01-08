@@ -22,7 +22,10 @@ namespace CoronaShopBE.Dto
         [JsonProperty("shopID")]
         public string shopID { get; set; }
         [JsonProperty("OrderID")]
+        
         public string orderID { get; set; }
+        [JsonProperty("OrderTimestamp")]
+        public DateTime orderTimestamp { get; set; }
         [JsonProperty("OrderDetails")]
         public OrderDetails orderDetails { get; set; }
         [JsonProperty("items")]

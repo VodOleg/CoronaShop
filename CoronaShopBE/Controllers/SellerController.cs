@@ -102,5 +102,12 @@ namespace CoronaShopBE.Controllers
         }
 
 
+        [HttpPost("RemoveOrder/{shopID}/{orderID}")]
+        public IActionResult DeleteShop(string shopID,string orderID, [FromBody] Credentials credentials)
+        {
+            bool orderRemoved = m_pSellersManager.RemoveOrder(shopID,orderID, credentials);
+            string response = Utils.responseGenerator<Shop>(orderRemoved, null);
+            return Ok(response);
+        }
     }
 }

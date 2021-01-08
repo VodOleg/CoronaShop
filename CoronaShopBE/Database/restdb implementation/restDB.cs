@@ -252,9 +252,12 @@ namespace CoronaShopBE.Database.restdb_implementation
         public bool removeOrderFromSeller(Seller shopOwner, Order order)
         {
             string q = "sellers/" + shopOwner._id;
-
+            if ( order == null)
+            {
+                return false;
+            }
             string content_core = JsonConvert.SerializeObject(order);
-            string content = "{\"$pull\":{\"Shops\":" + content_core + "}}";
+            string content = "{\"$pull\":{\"Orders\":" + content_core + "}}";
             var putTask = sendPut(q, content);
             var res = putTask.Result;
             return true;
