@@ -22,7 +22,14 @@ export default class ShopPage extends Component {
             renderModal: "",
             modalData : null
         }
+        const pageRefreshInterval = 10000*6; // 1 min
+        this.refresh = setInterval(()=>{
+            this.updateShopView();
+        }, pageRefreshInterval);
+    }
 
+    componentWillUnmount(){
+        clearInterval(this.refresh);
     }
     
 
@@ -183,7 +190,7 @@ export default class ShopPage extends Component {
                         <td>{shopOrders[i].OrderDetails.Name}</td>
                         <td>{shopOrders[i].OrderDetails.mAddress}</td>
                         <td>{shopOrders[i].OrderDetails.mPhoneNumber}</td>
-                        <td>{shopOrders[i].OrderTimestamp}</td>
+                        <td>{new Date(Date.parse(shopOrders[i].OrderTimestamp)).toString()}</td>
                         <td >
                             <Button variant={'primary'} size={'sm'} id={'showItemsButton_'+shopOrders[i].OrderID} onClick={this.showOrderInModal.bind(this)}> Open </Button>
                             <span>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     </span>
