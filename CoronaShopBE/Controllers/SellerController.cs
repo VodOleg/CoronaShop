@@ -88,8 +88,10 @@ namespace CoronaShopBE.Controllers
         [Route("UpdateShop/{shopID}")]
         public IActionResult UpdateShop(string shopID, [FromBody] Seller seller)
         {
+
             bool handleNewItem = m_pSellersManager.updateShop(shopID,seller);
             string response = Utils.responseGenerator<Seller>(handleNewItem, null);
+            //string response = Utils.responseGenerator<Seller>(true, null);
             return Ok(response);
         }
 

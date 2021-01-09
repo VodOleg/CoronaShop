@@ -22,7 +22,7 @@ export default class ShopPage extends Component {
             renderModal: "",
             modalData : null
         }
-        const pageRefreshInterval = 10000*6; // 1 min
+        const pageRefreshInterval = 10000*1; // 10 sec
         this.refresh = setInterval(()=>{
             this.updateShopView();
         }, pageRefreshInterval);
@@ -89,19 +89,22 @@ export default class ShopPage extends Component {
         if (!UF.isDefined(this.shopData.Items)){
             this.shopData.Items = [];
         }
+        let tempShopData = [...this.shopData.Items];
         for (let i in this.shopData.Items){
             if (this.shopData.Items[i].Id == item.Id){
-                this.shopData.Items[i] = {...item};
+                tempShopData[i] = item;
                 found = true;
                 break;
             }
         }
         if (!found){
-            this.shopData.Items.push(item);
+            tempShopData.push(item);
         }
         let updatedSeller = SSM.getUserData();
-        
-        BE.updateShop(this.shopLink ,updatedSeller).then((ret)=>{
+        let tempSeller = {...updatedSeller};
+        let theShop = tempSeller.Shops.find(shop => shop.PlatformLink === this.shopLink);
+        theShop.Items = [...tempShopData];
+        BE.updateShop(this.shopLink ,tempSeller).then((ret)=>{
             this.updateShopView();
         });
 

@@ -19,7 +19,7 @@ namespace CoronaShopBE.Dto
         {
             credentials = credentials_;
             shops = new List<Shop>();
-
+            orders = new List<Order>();
         }
         public Seller() { }
 
