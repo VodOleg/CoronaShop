@@ -98,7 +98,6 @@ class SimpleStateManager{
     }
     getShopOrders(link){
         var result = [];
-        console.log(this.sellerData.Orders);
         if(UtilityFunctions.isDefined(this.sellerData.Orders)){
             result = this.sellerData.Orders.filter(obj => obj.shopID===link );
         }

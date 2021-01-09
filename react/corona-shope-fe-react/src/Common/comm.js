@@ -15,9 +15,7 @@ class BE_Comm{
 
     async test(){
         let res1 = await this.send_request("SellabelItem",null);
-        console.log(res1);
         let res2 = await this.send_request("SellabelItem/test",{test:{JobId:"asd"}});
-        console.log(res2.data);
     }
 
     async tryLogIn(email,pw){

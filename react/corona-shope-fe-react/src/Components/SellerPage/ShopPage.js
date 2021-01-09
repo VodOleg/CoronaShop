@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Button, Form, Col, InputGroup, Modal, Table } from 'react-bootstrap';
+import { Card, Button, Form, Col,Row,Container, InputGroup, Modal, Table } from 'react-bootstrap';
 import {UtilityFunctions as UF} from '../../Common/Util';
 import SSM from './../../Common/SimpleStateManager';
 import Wrap from './../../Common/Wrap';
@@ -53,9 +53,14 @@ export default class ShopPage extends Component {
 
     renderItems(){
         let itemCards = [];
-        let items = SSM.getShop(this.shopLink).Items;//this.shopData.Items; 
-        for (let i in items){
-            itemCards.push( <SellableItem key={"shop_"+this.shopLink+"_itemID_"+items[i].Id} isOwner={true} data={items[i]} editCB={this.editItem.bind(this)} removeCB={this.removeItem.bind(this)} />);
+        let shop__ = SSM.getShop(this.shopLink);
+        let items;
+        if (UF.isDefined(shop__.Items)){
+            
+            items = shop__.Items;//this.shopData.Items; 
+            for (let i in items){
+                itemCards.push( <SellableItem key={"shop_"+this.shopLink+"_itemID_"+items[i].Id} isOwner={true} data={items[i]} editCB={this.editItem.bind(this)} removeCB={this.removeItem.bind(this)} />);
+            }
         }
         itemCards.push(this.renderAddItemAction());
         return <Wrap> {itemCards} </Wrap>;
@@ -90,6 +95,7 @@ export default class ShopPage extends Component {
             this.shopData.Items = [];
         }
         let tempShopData = [...this.shopData.Items];
+        console.log("Before:\n",JSON.stringify(tempShopData, null,2));
         for (let i in this.shopData.Items){
             if (this.shopData.Items[i].Id == item.Id){
                 tempShopData[i] = item;
@@ -104,6 +110,7 @@ export default class ShopPage extends Component {
         let tempSeller = {...updatedSeller};
         let theShop = tempSeller.Shops.find(shop => shop.PlatformLink === this.shopLink);
         theShop.Items = [...tempShopData];
+        console.log("After:\n",JSON.stringify(theShop.Items,null,2));
         BE.updateShop(this.shopLink ,tempSeller).then((ret)=>{
             this.updateShopView();
         });
@@ -135,8 +142,10 @@ export default class ShopPage extends Component {
 
     updateShopView(preventRefresh = false){
         BE.tryLogIn(SSM.getUserEmail(), SSM.getUserData().Credentials.pw).then((user)=>{
-            if (user.hasOwnProperty('data'))
+            if (user.hasOwnProperty('data')){
                 SSM.updateSeller(user.data);
+                this.shopData = SSM.getShop(this.shopLink);
+            }
             else
                 console.error("corrupted data on reload")
             if (!preventRefresh)
@@ -163,7 +172,13 @@ export default class ShopPage extends Component {
                     this is your main page, here you can add and managed your Items in shop. <span onClick={()=>{this.updateShopView()}} style={{color:"blue", cursor:"pointer"}}>Refresh</span>
                 </div>
                 <div className="bodyContent">
+                    <Container fluid>
+                        <Row>
+                            <Col>
                     {this.renderItems()}
+                            </Col>
+                        </Row>
+                    </Container>
                 </div>
             </div>
         </Wrap>

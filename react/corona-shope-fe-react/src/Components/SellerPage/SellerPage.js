@@ -27,7 +27,6 @@ export default class SellerPage extends Component {
                 break;
             default:
                 this.setState({page:where})
-                console.log("navigate to " + where+ " is not supported yet.")
                 break;
         }
     }
@@ -44,7 +43,6 @@ export default class SellerPage extends Component {
 
     updateSeller(preventRefresh=false){
         BE.tryLogIn(SSM.getUserEmail(), SSM.getUserData().Credentials.pw).then((user)=>{
-            console.log(user);
             if (user.hasOwnProperty('data'))
                 SSM.updateSeller(user.data);
             else
