@@ -14,6 +14,7 @@ export default class Cart extends Component {
             itemsInCart:0,
             orderConfirmed: false
         }
+        this.total = 0;
     }
     componentDidUpdate(props){
 
@@ -36,14 +37,13 @@ export default class Cart extends Component {
         for (let i in itemsInCart){
             totalCost += parseFloat(itemsInCart[i].Price);
             items.push(
-            <Wrap>
-                <tr>
+                <tr key={"cartItemRow_"+i}>
                     <td>{i}</td>
                     <td>{itemsInCart[i].Name}</td>
                     <td>{itemsInCart[i].Price}</td>
                     <td><Button variant={'danger'} size={'sm'} id={'item_in_cart_'+i} onClick={this.removeItemFromCart.bind(this)} >X</Button>  </td>
                 </tr>
-            </Wrap> )
+             )
         }
         let cartTable = 
         <Table striped bordered hover size="sm">
@@ -60,8 +60,9 @@ export default class Cart extends Component {
             </Table>;
         let ele = <Wrap>
             {cartTable}
-            <span style={{border:"1px dotted", textAlign:'center', fontWeight:'bold'}}># {itemsInCart.length} Total:{totalCost.toFixed(2)}</span>
+            
         </Wrap>
+        this.total = totalCost;
         return ele;
     }
 
@@ -71,7 +72,10 @@ export default class Cart extends Component {
     }
 
     renderControls(){
-        return <div style={{margin:'auto'}}><Button onClick={this.CheckOut.bind(this)}>Check Out</Button></div>
+        return <div className={"controls"}>
+            <span style={{border:"1px dotted", textAlign:'center', fontWeight:'bold', color:'black'}}># {this.state.itemsInCart.length} Total:{this.total.toFixed(2)}</span><br/>
+            <Button onClick={this.CheckOut.bind(this)}>Check Out</Button>
+            </div>
     }
     
     render() {

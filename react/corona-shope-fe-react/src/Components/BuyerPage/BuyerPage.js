@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {UtilityFunctions as UF} from './../../Common/Util';
+import {UtilityFunctions as UF, UtilityFunctions} from './../../Common/Util';
 import SSM from './../../Common/SimpleStateManager';
 import Wrap from './../../Common/Wrap';
 import SellableItem from './../SellableItem/SellableItem';
@@ -21,6 +21,7 @@ export default class BuyerPage extends Component {
             itemsInCart :0,
             renderModal: null
         }
+        window.history.replaceState(null,"",window.location.origin);
     }
 
     addToCart(item){
@@ -66,11 +67,39 @@ export default class BuyerPage extends Component {
 
     renderItems(){
         let itemCards = [];
+        if (!UtilityFunctions.isDefined(this.shopData.shopData.Items)){
+            return <Wrap>Data not ready!</Wrap>;
+        }
         let items = this.shopData.shopData.Items;
         for (let i in items){
             itemCards.push( <SellableItem key={"shop_"+this.shopLink+"_itemID_"+items[i].Id} isOwner={false} data={items[i]} addCB={this.addToCart.bind(this)} />);
         }
         return <Wrap> {itemCards} </Wrap>;
+    }
+
+    renderMain(){
+        let data = this.shopData.shopData;
+        let ele = <Wrap>
+            <Container>
+                <Row>
+                    <Col>
+                        <h3>Welcome to {data.Name}!</h3><br/>
+                        <span className="">{data.Description}</span> <br/><br/>
+                        <span className="shopDetails" style={{fontWeight:"bold"}}>Location: {data.Location}</span> <br/>
+                        <span className="shopDetails" style={{fontWeight:"bold"}}>Link: {data.PlatformLink}</span> <br/>
+                        <span className="shopDetails" style={{fontWeight:"bold"}}>Work Hours: {data.ShopConfiguration.Hours}</span> <br/>
+                        <span className="shopDetails" style={{fontWeight:"bold"}}>Take Away: {data.ShopConfiguration.TakeAway ? 'v' : 'x'}</span> <br/>
+                        <span className="shopDetails" style={{fontWeight:"bold"}}>Delivery: {data.ShopConfiguration.Delivery ? 'v' : 'x'}</span> <br/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        {this.renderItems()}
+                    </Col>
+                </Row>
+            </Container>
+        </Wrap>
+        return ele;
     }
 
     render() {
@@ -80,7 +109,7 @@ export default class BuyerPage extends Component {
                 <Container fluid>
                     <Row>
                         <Col sm={10}>
-                            {this.renderItems()}
+                            {this.renderMain()}
                         </Col>
                         <Col sm={2} style={{position:"fixed", marginLeft:"80%"}}>
                             <Cart itemsArr={this.shopData.shopData.Items} inCartList={this.state.itemsInCart} CheckOutCB={this.showCheckoutModal.bind(this)} />

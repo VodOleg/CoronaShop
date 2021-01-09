@@ -17,7 +17,7 @@ export default class SellerPage extends Component {
         this.state = {
             page : "main"
         }
-        
+        window.history.replaceState(null,"",window.location.origin);
     }
 
     navigate(where){

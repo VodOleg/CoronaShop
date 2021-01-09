@@ -5,6 +5,7 @@ import axios from 'axios';
 import {UtilityFunctions as UF } from './Util';
 import SSM from './SimpleStateManager';
 import ItemForm from './../Components/SellerPage/ItemForm';
+import testShop from './dummyShopForTests';
 
 class BE_Comm{
     constructor(){
@@ -134,6 +135,10 @@ class BE_Comm{
     
     async getShop(shopID){
         
+        if(SSM.isDevelopmentMode()){
+            return testShop.Shops[1];
+        }
+
         let res = await this.send_request(`Public/${shopID}`, null, 'get');
         
         if(UF.isDefined(res) && UF.isDefined(res.data.response) && UF.isDefined(res.data.data)){
@@ -150,8 +155,6 @@ class BE_Comm{
             }
         };
         let request = this.BE_URL+'/api/'+controller;
-        console.log(`sending request to:`,request);
-        console.log(body);
         let response = null;
         try{
             if (type ==='post'){

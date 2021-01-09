@@ -1,10 +1,22 @@
 .cartContainer{
     width:300px;
-    height: 500px;
-    max-height: 500px;
-    border: 1px solid red;
+    height: 600px;
+    max-height: 600px;
+    background: white;
+    border:1px dotted gainsboro;
+  border-radius: 0% 0% 0% 0% / 0% 0% 0% 0% ;
+  color: white;
+  box-shadow: 20px 20px rgba(0,0,0,.15);
+  transition: all .4s ease;
 }
 
+.cartContainer:hover{
+    border-radius: 0% 0% 50% 50% / 0% 0% 5% 5% ;
+  box-shadow: 10px 10px rgba(0,0,0,.25);
+}
+.controls{
+    padding: 20% 5%;
+}
 .cartInnerContainer{
     padding:5%;
     
